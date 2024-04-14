@@ -5,6 +5,8 @@ import battleship.frontend.style.ComponentSize;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
 public class PlayingPanel extends JPanel {
@@ -24,7 +26,7 @@ public class PlayingPanel extends JPanel {
         JPanel playArea = new JPanel();
         playArea.setLayout(new BoxLayout(playArea, BoxLayout.X_AXIS));
         playArea.setBackground(null);
-        playArea.setPreferredSize(new Dimension(playAreaSize.getWidth(), 400));
+        playArea.setPreferredSize(new Dimension(playAreaSize.getWidth(), 500));
         playArea.setMaximumSize(playArea.getPreferredSize());
         player1 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING1, "name waiting");
         player2 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING2, "name waiting");
@@ -35,7 +37,14 @@ public class PlayingPanel extends JPanel {
         playArea.add(player2);
         add(playArea);
 
+       // Box horizontalBox = Box.createHorizontalBox();
+
         chatPanel = new ChatPanel();
+//        horizontalBox.add(chatPanel);
+//        horizontalBox.add(Box.createHorizontalGlue());
+//        horizontalBox.setVisible(true);
+
+//        add(horizontalBox);
         add(chatPanel);
         setBackground(Color.white);
     }
