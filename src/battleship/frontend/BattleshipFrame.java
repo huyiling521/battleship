@@ -1,30 +1,45 @@
 package battleship.frontend;
 
+import battleship.frontend.style.ComponentSize;
+
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 
 public class BattleshipFrame extends JFrame {
-    public static final int WIDTH=1200;
-    public static final int HEIGHT=500;
+    private static final ComponentSize frameSize = ComponentSize.WINDOW;
+    private final WelcomePanel welcomePage;
+    private final SettingPanel settingPanel;
+
+    private final PlayingPanel playingPanel;
+    private final ChatPanel chatPanel;
     public BattleshipFrame() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-      super();
-      setSize(WIDTH,HEIGHT);
-      setResizable(false);
-      setTitle("Battleship");
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setLayout(new FlowLayout());
-      getContentPane().setBackground(Color.lightGray);
+        super();
+        JPanel layout = new JPanel();
+        layout.setLayout(new BoxLayout(layout, BoxLayout.Y_AXIS));
+        setPreferredSize(new Dimension(frameSize.getWidth(), frameSize.getHeight()));
+        setResizable(false);
+        setTitle("Battleship");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        welcomePage = new WelcomePanel();
+        settingPanel = new SettingPanel();
+        playingPanel = new PlayingPanel();
+        chatPanel = new ChatPanel();
 
-      add(new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING1));
-      add(new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING2));
-      pack();
+//        setLayout(new FlowLayout());
+        getContentPane().setBackground(Color.white);
+        setLocationRelativeTo(null); // Center the window on the screen
+        layout.add(welcomePage);
+        layout.add(playingPanel);
+        layout.add(settingPanel);
+        welcomePage.setVisible(false);
+        playingPanel.setVisible(true);
+        settingPanel.setVisible(false);
+        add(layout);
+        setSize(frameSize.getWidth(), frameSize.getHeight());
+//        pack();
     }
-
-  public static void main(String[] args) {
-
-  }
   }
 
 
