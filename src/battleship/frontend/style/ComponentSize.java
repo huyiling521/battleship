@@ -3,9 +3,9 @@ package battleship.frontend.style;
 public enum ComponentSize {
     WINDOW(1200, 800),
     WELCOME_PANEL(400, 400),
-    GAME_PANEL(1200, 800),
+    GAME_PANEL(800, 800),
 //    GRID_BOARD(440, 600),
-    CHAT_PANEL(1200, 600),
+    CHAT_PANEL(800, 200),
     GRID_BUTTON(30);
 
     private int width;

@@ -1,5 +1,7 @@
 package battleship.frontend;
 
+import battleship.server.controler.PositionListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,9 +13,9 @@ public abstract class GridButton extends JButton implements ActionListener {
     private Color disabledColor; // Color when button is disabled
     private boolean isButtonPressed = false;
     private boolean isClicked = false;
+    private PositionListener positionListener;
 
-
-    public GridButton(int row, int col) {
+    public GridButton(int row, int col,) {
         super();
         this.addActionListener(this);
         this.setActionCommand(row + "," + col);

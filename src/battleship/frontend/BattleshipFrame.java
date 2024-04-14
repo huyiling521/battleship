@@ -34,9 +34,11 @@ public class BattleshipFrame extends JFrame {
         layout.add(playingPanel);
         layout.add(settingPanel);
         welcomePage.setVisible(false);
-        playingPanel.setVisible(true);
-        settingPanel.setVisible(false);
+        playingPanel.setVisible(false);
+        settingPanel.setVisible(true);
         add(layout);
+        layout.setBackground(Color.white);
+        layout.setOpaque(true);
         setSize(frameSize.getWidth(), frameSize.getHeight());
 //        pack();
     }

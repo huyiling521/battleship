@@ -5,10 +5,9 @@ import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 
 public enum ButtonStyle {
-    PLAYER_SETTING1(new Color(240, 240, 240), Color.PINK, Color.RED, Color.GRAY),
-    PLAYER_SETTING2(new Color(240, 240, 240), Color.CYAN, Color.BLUE, Color.GRAY),
-    PLAYER_PLAYING1(new Color(240, 240, 240), Color.PINK, new Color(200, 100, 100), Color.lightGray),
-    PLAYER_PLAYING2(new Color(240, 240, 240), new Color(173, 216, 230), new Color(100, 146, 170), Color.lightGray);
+    PLAYER_SETTING(new Color(240, 240, 240), new Color(220, 160, 160), Color.PINK, Color.lightGray),
+    PLAYER_PLAYING1(new Color(240, 240, 240), new Color(220, 160, 160), Color.PINK, Color.lightGray),
+    PLAYER_PLAYING2(new Color(240, 240, 240), new Color(130, 176, 200), new Color(173, 216, 230), Color.lightGray);
 
     private final Color originalColor;
     private final Color pressedColor;  // Color when button is pressed

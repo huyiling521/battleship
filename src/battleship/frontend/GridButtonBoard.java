@@ -15,11 +15,12 @@ public class GridButtonBoard extends JPanel{
     private static final int GRID_SIZE = 11; // Grid size constant
 
     private JButton[][] buttons = new JButton[GRID_SIZE][GRID_SIZE]; // Create a grid of JButtons
+    private String position;
 
     public GridButtonBoard(Class<?> classof, ButtonStyle buttonStyle, String name) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(new GridBagLayout());
 //        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
+        position = "";
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 //        gbc.weightx = 1;
@@ -30,7 +31,7 @@ public class GridButtonBoard extends JPanel{
 
         JButton nameBanner = new JButton(name + "'s Board");
         nameBanner.setOpaque(true);
-        nameBanner.setBackground(buttonStyle.getPressedColor());
+        nameBanner.setBackground(buttonStyle.getHoverColor());
         nameBanner.setContentAreaFilled(true);
         nameBanner.setBorderPainted(true);
         nameBanner.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
