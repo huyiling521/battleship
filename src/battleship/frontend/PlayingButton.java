@@ -1,5 +1,7 @@
 package battleship.frontend;
 
+import battleship.frontend.style.ButtonStyle;
+
 import java.awt.event.ActionEvent;
 
 public class PlayingButton extends GridButton{
@@ -13,6 +15,7 @@ public class PlayingButton extends GridButton{
         setHoverColor(buttonStyle.getHoverColor());
         setDisabledColor(buttonStyle.getDisabledColor());
         setPressedColor(buttonStyle.getPressedColor());
+        initStyle();
     }
 
     @Override

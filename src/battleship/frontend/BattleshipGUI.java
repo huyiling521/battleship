@@ -1,5 +1,7 @@
 package battleship.frontend;
 
+import battleship.frontend.BattleshipFrame;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class BattleshipGUI {

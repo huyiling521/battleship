@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 public abstract class GridButton extends JButton implements ActionListener {
-    private Color originalColor = Color.white;
-    private Color pressedColor = Color.pink;  // Color when button is pressed
-    private Color hoverColor = Color.red;     // Color when mouse hovers
-    private Color disabledColor = Color.darkGray; // Color when button is disabled
+    private Color originalColor;
+    private Color pressedColor;  // Color when button is pressed
+    private Color hoverColor;     // Color when mouse hovers
+    private Color disabledColor; // Color when button is disabled
     private boolean isButtonPressed = false;
     private boolean isClicked = false;
 
@@ -17,7 +17,9 @@ public abstract class GridButton extends JButton implements ActionListener {
         super();
         this.addActionListener(this);
         this.setActionCommand(row + "," + col);
+    }
 
+    protected void initStyle() {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -56,7 +58,9 @@ public abstract class GridButton extends JButton implements ActionListener {
         this.setContentAreaFilled(true);
         this.setBorderPainted(true);
         this.setOpaque(true);
-        this.setBorder(BorderFactory.createLineBorder(Color.gray));
+        this.setMargin(new Insets(0, 0, 0, 0));
+        this.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
+//        this.setBorder(BorderFactory.createLineBorder(Color.white));
     }
 
     @Override
