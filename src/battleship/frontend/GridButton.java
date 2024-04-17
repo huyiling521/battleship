@@ -1,6 +1,6 @@
 package battleship.frontend;
 
-import battleship.server.controler.PositionListener;
+import battleship.server.controler.GUIController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,9 +13,8 @@ public abstract class GridButton extends JButton implements ActionListener {
     private Color disabledColor; // Color when button is disabled
     private boolean isButtonPressed = false;
     private boolean isClicked = false;
-    private PositionListener positionListener;
 
-    public GridButton(int row, int col,) {
+    public GridButton(int row, int col, GUIController guiController) {
         super();
         this.addActionListener(this);
         this.setActionCommand(row + "," + col);
@@ -64,15 +63,24 @@ public abstract class GridButton extends JButton implements ActionListener {
         this.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
 //        this.setBorder(BorderFactory.createLineBorder(Color.white));
     }
+//
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (!isClicked) { // Ensure action is performed only once
+//            isClicked = true;
+//            setBackground(disabledColor); // Change color to indicate disabled state
+//            this.setEnabled(false); // Disable the button to prevent further clicks
+//            System.out.println(e.getActionCommand());
+//        }
+//    }
+    public void confirmClick() {
+        setClicked(true);
+        this.setEnabled(false); // Disable the button to prevent further clicks
+    }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (!isClicked) { // Ensure action is performed only once
-            isClicked = true;
-            setBackground(disabledColor); // Change color to indicate disabled state
-            this.setEnabled(false); // Disable the button to prevent further clicks
-            System.out.println(e.getActionCommand());
-        }
+    public void clearClick() {
+        setClicked(false);
+        this.setEnabled(true); // Disable the button to prevent further clicks
     }
 
     public boolean isButtonPressed() {
@@ -107,4 +115,5 @@ public abstract class GridButton extends JButton implements ActionListener {
     public void setDisabledColor(Color disabledColor) {
         this.disabledColor = disabledColor;
     }
+
 }
