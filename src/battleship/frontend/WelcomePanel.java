@@ -1,15 +1,35 @@
 package battleship.frontend;
 
+import battleship.server.controler.GUIController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WelcomePanel extends JPanel {
+public class WelcomePanel extends JPanel implements PanelManage{
 
-    public WelcomePanel() {
-        super(new GridLayout(4, 1, 10, 10));
+    private JLabel messageLabel;
+    public WelcomePanel(GUIController guiController) {
+        super(new GridBagLayout());
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(40,0,40,0);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+
+        JLabel title = new JLabel("Welcome to Battleship Game!");
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+        add(title, gbc);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 5, 5));
+        buttonPanel.setBackground(Color.white);
+        buttonPanel.setPreferredSize(new Dimension(200, 200));
+        buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
         // Create buttons
         JButton singlePlayerButton = new JButton("Single Player");
         JButton twoPlayersButton = new JButton("Two Players");
@@ -20,24 +40,21 @@ public class WelcomePanel extends JPanel {
         singlePlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Placeholder for starting a single player game
-                System.out.println("Starting Single Player Game...");
+                guiController.toPlayingPanel();
             }
         });
 
         twoPlayersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Placeholder for starting a two player game
-                System.out.println("Starting Two Player Game...");
+                guiController.toSettingPanel();
             }
         });
 
         playOnlineButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Placeholder for starting an online game
-                System.out.println("Connecting to Online Game...");
+                guiController.toSettingPanel();
             }
         });
 
@@ -49,11 +66,26 @@ public class WelcomePanel extends JPanel {
             }
         });
 
+        messageLabel = new JLabel("");
+        messageLabel.setForeground(Color.red);
         // Create a panel with a grid layout to hold buttons
-        setBackground(Color.WHITE); // Set background color of the panel to white
-        add(singlePlayerButton);
-        add(twoPlayersButton);
-        add(playOnlineButton);
-        add(exitButton);
+        // Set background color of the panel to white
+        buttonPanel.add(singlePlayerButton);
+        buttonPanel.add(twoPlayersButton);
+        buttonPanel.add(playOnlineButton);
+        buttonPanel.add(exitButton);
+        buttonPanel.add(messageLabel);
+
+        setBackground(Color.WHITE);
+        gbc.gridy++;
+        add(buttonPanel, gbc);
+    }
+
+    @Override
+    public void setPosition(int row, int col) {
+    }
+
+    public void setMessageLabel(String message) {
+        this.messageLabel.setText(message);
     }
 }
