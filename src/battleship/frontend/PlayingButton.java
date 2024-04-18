@@ -32,9 +32,16 @@ public class PlayingButton extends GridButton{
     public void actionPerformed(ActionEvent e) {
         if (!isClicked() && isEnabled()) { // Ensure action is performed only once
             setClicked(true);
-            setBackground(buttonStyle.getDisabledColor()); // Change color to indicate disabled state
             this.setEnabled(false); // Disable the button to prevent further clicks
-            guiController.getClickedPlayingButton(this);
+            if (guiController.attack(this)) setBackground(buttonStyle.getHoverColor()); // Change color to indicate disabled state;
+            else setBackground(buttonStyle.getDisabledColor()); // Change color to indicate disabled state
         }
+    }
+
+    public void getAttacked(boolean isHit) {
+        setClicked(true);
+        this.setEnabled(false);
+        if (isHit) setBackground(buttonStyle.getHoverColor()); // Change color to indicate disabled state;
+        else setBackground(buttonStyle.getDisabledColor());
     }
 }

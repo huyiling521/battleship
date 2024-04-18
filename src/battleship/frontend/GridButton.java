@@ -83,6 +83,14 @@ public abstract class GridButton extends JButton implements ActionListener {
         this.setEnabled(true); // Disable the button to prevent further clicks
     }
 
+    public void setButtonHoverColor() {
+        this.setBackground(hoverColor);
+    }
+
+    public void setButtonPressedColor() {
+        this.setBackground(pressedColor);
+    }
+
     public boolean isButtonPressed() {
         return isButtonPressed;
     }

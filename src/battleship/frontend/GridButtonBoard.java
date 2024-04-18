@@ -19,7 +19,7 @@ public class GridButtonBoard extends JPanel{
     private GridButton prevButton = null;
     private String position;
 
-    public GridButtonBoard(Class<?> classof, ButtonStyle buttonStyle, String name, GUIController guiController) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public GridButtonBoard(Class<? extends GridButton> classof, ButtonStyle buttonStyle, String name, GUIController guiController) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(new GridBagLayout());
         position = "";
         GridBagConstraints gbc = new GridBagConstraints();
@@ -27,7 +27,7 @@ public class GridButtonBoard extends JPanel{
         gbc.anchor = GridBagConstraints.LINE_END;
         gbc.insets = new Insets(10, 0, 10, 0);
         // Populate the panel with buttons
-        JButton nameBanner = new JButton(name + "'s Board");
+        JButton nameBanner = new JButton(name + "'s OnePlayerBoard");
         nameBanner.setOpaque(true);
         nameBanner.setBackground(buttonStyle.getHoverColor());
         nameBanner.setContentAreaFilled(true);
@@ -65,7 +65,7 @@ public class GridButtonBoard extends JPanel{
                     panel.add(rowLabel);
                 } else {
                     Constructor<?> constructor = classof.getConstructor(int.class, int.class, ButtonStyle.class, GUIController.class);
-                    buttons[row][col] = (GridButton) constructor.newInstance(row, col, buttonStyle, guiController);
+                    buttons[row][col] = (classof.cast()) constructor.newInstance(row, col, buttonStyle, guiController);
                     panel.add(buttons[row][col]);
                 }
             }
@@ -88,6 +88,12 @@ public class GridButtonBoard extends JPanel{
     }
     public GridButton getPrevButton() {
         return prevButton;
+    }
+
+    public void attackedButton(int row, int col, boolean isHit) {
+        buttons[row][col].confirmClick();
+        if (isHit) buttons[row][col].setButtonHoverColor();
+        else buttons[row][col].setButtonPressedColor();
     }
 
 }

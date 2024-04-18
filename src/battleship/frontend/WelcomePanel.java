@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class WelcomePanel extends JPanel implements PanelManage{
+public class WelcomePanel extends JPanel{
 
     private JLabel messageLabel;
     public WelcomePanel(GUIController guiController) {
@@ -79,10 +79,6 @@ public class WelcomePanel extends JPanel implements PanelManage{
         setBackground(Color.WHITE);
         gbc.gridy++;
         add(buttonPanel, gbc);
-    }
-
-    @Override
-    public void setPosition(int row, int col) {
     }
 
     public void setMessageLabel(String message) {
