@@ -25,7 +25,6 @@ public class SettingButton extends GridButton{
         if (!isClicked()) { // Ensure action is performed only once
             setClicked(true);
             setBackground(buttonStyle.getDisabledColor()); // Change color to indicate disabled state
-//            this.setEnabled(false); // Disable the button to prevent further clicks
             guiController.getClickedSettingButton(this);
         }
     }

@@ -14,8 +14,8 @@ public class BattleshipFrame extends JFrame {
     private SettingPanel settingPanel;
 
     private PlayingPanel playingPanel;
-    private final  CardLayout cardLayout;
-    private final JPanel cardPanel;
+//    private final  CardLayout cardLayout;
+//    private final JPanel cardPanel;
 
     public BattleshipFrame(GUIController guiController) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         super();
@@ -26,25 +26,14 @@ public class BattleshipFrame extends JFrame {
         setTitle("Battleship");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        welcomePage = new WelcomePanel(guiController);
+        welcomePage = guiController.getWelcomePanel();
         //settingPanel = new SettingPanel(guiController);
-        playingPanel = new PlayingPanel(guiController);
+//        playingPanel = new PlayingPanel(guiController);
 
-        cardLayout = new CardLayout();
-        cardPanel = new JPanel(cardLayout);
-
-        guiController.setCurrentPanel(welcomePage);
-        cardPanel.add(welcomePage, "welcome");
-//        cardPanel.add(settingPanel, "setting");
-//        cardPanel.add(playingPanel, "playing");
-
-        cardLayout.show(cardPanel, "welcome");
-        add(cardPanel);
+        add(guiController.getCardPanel());
         getContentPane().setBackground(Color.white);
         setLocationRelativeTo(null); // Center the window on the screen
 
-        guiController.setCardLayout(cardLayout);
-        guiController.setCardPanel(cardPanel);
         guiController.setBattleshipFrame(this);
         setSize(frameSize.getWidth(), frameSize.getHeight());
     }

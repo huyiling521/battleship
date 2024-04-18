@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-public class SettingPanel extends JPanel implements PanelManage{
+public class SettingPanel extends JPanel{
     private final GridButtonBoard player1;
     private static final ComponentSize playAreaSize = ComponentSize.GAME_PANEL;
     private static final ComponentSize windowSize = ComponentSize.WINDOW;
@@ -191,12 +191,5 @@ public class SettingPanel extends JPanel implements PanelManage{
         this.row = row;
         this.col = col;
         currPosition.setText("Current Bow Position:   " + (char)(row - 1 + 'A') + ", " + col);
-    }
-
-    @Override
-    public void setMessageLabel(String message) {
-    }
-
-    public void panelClear(GUIController guiController) {
     }
 }

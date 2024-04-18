@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
-public class PlayingPanel extends JPanel implements PanelManage{
+public class PlayingPanel extends JPanel {
 
     private final GridButtonBoard player1;
     private final GridButtonBoard player2;
@@ -23,8 +23,8 @@ public class PlayingPanel extends JPanel implements PanelManage{
     private JTextPane messageArea;
     private JTextField textField;
     private String systemMessage = "";
-    private int row;
-    private int col;
+//    private int row;
+//    private int col;
     private Style system;
     private Style myText;
     private Style otherText;
@@ -39,8 +39,8 @@ public class PlayingPanel extends JPanel implements PanelManage{
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        player1 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING1, "name waiting", guiController);
-        player2 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING2, "name waiting", guiController);
+        player1 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING1, "Your", guiController);
+        player2 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING2, "Opponent", guiController);
 
         add(player1, gbc);
         gbc.gridx++;
@@ -109,19 +109,15 @@ public class PlayingPanel extends JPanel implements PanelManage{
         setBackground(Color.white);
     }
 
-    @Override
-    public void setPosition(int row, int col) {
-        this.row = row;
-        this.col = col;
-        systemMessage = "You attacked (" + (char)(row - 1 + 'A') + ", " + col + ").";
-        addMessage(systemMessage, system, "");
-    }
+//    @Override
+//    public void setPosition(int row, int col) {
+//        this.row = row;
+//        this.col = col;
+//        systemMessage = "You attacked (" + (char)(row - 1 + 'A') + ", " + col + ").";
+//        addMessage(systemMessage, system, "");
+//    }
 
-    @Override
-    public void setMessageLabel(String message) {
-    }
-
-    public void addMessage(String string, Style style, String tag) {
+    private void addMessage(String string, Style style, String tag) {
         try {
             StyledDocument doc = messageArea.getStyledDocument();
             doc.setParagraphAttributes(doc.getLength(), 1, style, false);
@@ -130,5 +126,21 @@ public class PlayingPanel extends JPanel implements PanelManage{
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void addSystemMessage(String string) {
+        addMessage(string, system, "");
+    }
+
+    public void addOpponentMessage(String string) {
+        addMessage(string, otherText, "Opponent:\n");
+    }
+
+    public GridButtonBoard getPlayer1() {
+        return player1;
+    }
+
+    public GridButtonBoard getPlayer2() {
+        return player2;
     }
 }
