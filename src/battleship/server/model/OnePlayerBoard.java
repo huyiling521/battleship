@@ -3,7 +3,7 @@ package battleship.server.model;
 import java.util.*;
 
 
-public class Board implements IBoard{
+public class OnePlayerBoard implements IBoard{
 	
 	//Instance variables
 	
@@ -60,7 +60,7 @@ public class Board implements IBoard{
 	 * Fills the ships array with EmptySea objects
 	 * Also initializes any game variables
 	 */
-	public Board() {
+	public OnePlayerBoard() {
 		//Initialize the number of shots been fired to 0
 		this.shotsFired = 0;
 		//Initialize the number of hit to 0
@@ -243,7 +243,7 @@ public class Board implements IBoard{
 	/**
 	 * “Puts” the ship in the ocean.
 	 * This involves giving values to the bowRow, bowColumn, and horizontal instance variables in the ship
-	 * And it also involves putting a reference to the ship in each of 1 or more locations (up to 4) in the ships array in the Board object.
+	 * And it also involves putting a reference to the ship in each of 1 or more locations (up to 4) in the ships array in the OnePlayerBoard object.
 	 * @param row for the given row to be checked
 	 * @param col for the given column checked
 	 * @param horizontal for the orientation
@@ -266,7 +266,7 @@ public class Board implements IBoard{
 	}
 
 	/**
-	 * Print the Board with row and column numbers(0-9) displayed
+	 * Print the OnePlayerBoard with row and column numbers(0-9) displayed
 	 * "x" indicates a location that you have fired upon and hit a (real) ship.
 	 * "-" indicates a location that you have fired upon and found nothing there.
 	 * "s" indicates a location containing a sunken ship.

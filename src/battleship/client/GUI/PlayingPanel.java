@@ -1,8 +1,8 @@
-package battleship.frontend;
+package battleship.client.GUI;
 
-import battleship.frontend.style.ButtonStyle;
-import battleship.frontend.style.ComponentSize;
-import battleship.server.controler.GUIController;
+import battleship.client.GUI.style.ButtonStyle;
+import battleship.client.GUI.style.ComponentSize;
+import battleship.client.controller.GUIController;
 
 import javax.swing.*;
 import javax.swing.text.Style;

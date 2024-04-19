@@ -1,7 +1,7 @@
-package battleship.frontend;
+package battleship.client.GUI;
 
-import battleship.frontend.style.ButtonStyle;
-import battleship.server.controler.GUIController;
+import battleship.client.GUI.style.ButtonStyle;
+import battleship.client.controller.GUIController;
 
 import java.awt.event.ActionEvent;
 

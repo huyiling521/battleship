@@ -1,13 +1,11 @@
-package battleship.frontend;
+package battleship.client;
 
-import battleship.frontend.BattleshipFrame;
-import battleship.server.controler.GUIController;
-import battleship.server.controler.GameController;
-import battleship.server.model.TwoPlayerBoard;
+import battleship.client.GUI.BattleshipFrame;
+import battleship.client.controller.GUIController;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class BattleshipGUI {
+public class BattleshipClient {
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         GUIController guiController = new GUIController();
         BattleshipFrame first = new BattleshipFrame(guiController);

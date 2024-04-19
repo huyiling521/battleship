@@ -1,4 +1,4 @@
-package battleship.frontend.style;
+package battleship.client.GUI.style;
 
 public enum ComponentSize {
     WINDOW(1200, 800),

@@ -11,7 +11,7 @@ public class PatrolBoat extends Ship {
 	/**
 	 * Length of Patrol Boat
 	 */
-	static final int SHIPLENGTH = 1;
+	static final int SHIPLENGTH = 2;
 
 
 	//Constructor
