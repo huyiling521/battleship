@@ -1,8 +1,6 @@
-package battleship.frontend.style;
+package battleship.client.GUI.style;
 
 import java.awt.Color;
-import javax.swing.border.Border;
-import javax.swing.BorderFactory;
 
 public enum ButtonStyle {
     PLAYER_SETTING(new Color(240, 240, 240), new Color(220, 160, 160), Color.PINK, Color.lightGray),

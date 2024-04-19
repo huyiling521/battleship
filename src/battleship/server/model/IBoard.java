@@ -20,10 +20,10 @@ public interface IBoard {
      */
     boolean shootAt(int row, int col);
 
-    /**
-     * Determine if all ships have been sunk
-     * @return true if all ships have been sunk, otherwise false
-     */
+        /**
+         * Determine if all ships have been sunk
+         * @return true if all ships have been sunk, otherwise false
+         */
     boolean isGameOver();
 
     void print();

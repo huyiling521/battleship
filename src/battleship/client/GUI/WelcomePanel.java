@@ -1,6 +1,6 @@
-package battleship.frontend;
+package battleship.client.GUI;
 
-import battleship.server.controler.GUIController;
+import battleship.client.controller.GUIController;
 
 import javax.swing.*;
 import java.awt.*;

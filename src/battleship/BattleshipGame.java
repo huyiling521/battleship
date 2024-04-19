@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * Main class for a Human vs. Computer version of Battleship.
- * Creates a single instance of Board.
+ * Creates a single instance of OnePlayerBoard.
  * Gets user input(row and column) as instructions
  *  Interact with and play against the Computer
  * @author Yiling Hu &amp; Jiao Du
@@ -25,7 +25,7 @@ public class BattleshipGame {
     //Initialize a value to start and end a loop
     boolean playEnd;
     //Initialize the board
-    Board board;
+    OnePlayerBoard board;
 
 
     /**
@@ -51,7 +51,7 @@ public class BattleshipGame {
         //Game starts
         while (!playEnd){
             //Create a new board
-            Board board = new Board();
+            OnePlayerBoard board = new OnePlayerBoard();
             //Put ten ships on board
             board.placeAllShipsRandomly();
             //Put the ten ships into the ship lists
@@ -97,7 +97,7 @@ public class BattleshipGame {
      * Check if the game is over(count the number of sunk ships)
      * @param board for the board to play the game
      */
-    void computerCalculate(Board board) {
+    void computerCalculate(OnePlayerBoard board) {
         //Determine if the player shoot a ship
         //If she does
         if (board.shootAt(row,column)) {
@@ -148,7 +148,7 @@ public class BattleshipGame {
      * Print Game Over information and the final score of the human player(the shots fired)
      * @param board board for the board to play the game
      */
-    void printEnd(Board board) {
+    void printEnd(OnePlayerBoard board) {
         System.out.println("----------GAME OVER----------");
         System.out.println("Your have shot "+ board.getShotsFired() + " times.");
     }

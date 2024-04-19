@@ -118,7 +118,7 @@ public abstract class Ship implements IShip {
     }
 
     /**
-     * Returns a single-character String to use in the Board’s print method.
+     * Returns a single-character String to use in the OnePlayerBoard’s print method.
      * Return "s" if the ship has been sunk
      * Return "x" if it has not been sunk
      */

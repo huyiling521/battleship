@@ -37,7 +37,7 @@ public class EmptySea extends Ship {
     }
 
     /**
-     * Return the single-character "-" to use in the Board's print method
+     * Return the single-character "-" to use in the OnePlayerBoard's print method
      */
     @Override
     public String toString() {
