@@ -1,4 +1,4 @@
-package battleship;
+package battleship.server;
 
 import battleship.server.model.*;
 
@@ -13,7 +13,7 @@ import java.util.Scanner;
  * @author Yiling Hu &amp; Jiao Du
  *
  */
-public class BattleshipGame {
+public class BattleshipServer {
 
     //Instance variables
     //Initialize the row to store the result from the user
@@ -29,12 +29,12 @@ public class BattleshipGame {
 
 
     /**
-     * The main method just creates a BattleshipGame object and calls its run method.
+     * The main method just creates a BattleshipServer object and calls its run method.
      * @param args Not used.
      */
     public static void main(String[] args) {
         //A general method that contain the whole process of game
-        new BattleshipGame().run();
+        new BattleshipServer().run();
     }
 
     /**
