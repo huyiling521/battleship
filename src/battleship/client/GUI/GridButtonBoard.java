@@ -9,17 +9,19 @@ import java.awt.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class GridButtonBoard extends JPanel{
+public class GridButtonBoard extends JPanel {
 
     private static final ComponentSize gridButtonSize = ComponentSize.GRID_BUTTON;
-//    private static final ComponentSize gridBoardSize = ComponentSize.GRID_BOARD;
+    // private static final ComponentSize gridBoardSize = ComponentSize.GRID_BOARD;
     private static final int GRID_SIZE = 11; // Grid size constant
 
     private GridButton[][] buttons = new GridButton[GRID_SIZE][GRID_SIZE]; // Create a grid of JButtons
     private GridButton prevButton = null;
     private String position;
 
-    public GridButtonBoard(Class<? extends GridButton> classof, ButtonStyle buttonStyle, String name, GUIController guiController) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public GridButtonBoard(Class<? extends GridButton> classof, ButtonStyle buttonStyle, String name,
+            GUIController guiController)
+            throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         super(new GridBagLayout());
         position = "";
         GridBagConstraints gbc = new GridBagConstraints();
@@ -35,21 +37,26 @@ public class GridButtonBoard extends JPanel{
         nameBanner.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
         nameBanner.setHorizontalTextPosition(SwingConstants.CENTER);
         nameBanner.setVerticalTextPosition(SwingConstants.CENTER);
-        nameBanner.setPreferredSize(new Dimension((GRID_SIZE - 1) * gridButtonSize.getWidth(), gridButtonSize.getHeight()));  // Set preferred size
-        nameBanner.setMinimumSize(nameBanner.getPreferredSize());    // Set minimum size
+        nameBanner.setPreferredSize(
+                new Dimension((GRID_SIZE - 1) * gridButtonSize.getWidth(), gridButtonSize.getHeight())); // Set
+                                                                                                         // preferred
+                                                                                                         // size
+        nameBanner.setMinimumSize(nameBanner.getPreferredSize()); // Set minimum size
         nameBanner.setMaximumSize(nameBanner.getPreferredSize());
-        //nameBanner.setPreferredSize(GRID_SIZE * gridButtonSize.getWidth(), gridButtonSize.getWidth());
+        // nameBanner.setPreferredSize(GRID_SIZE * gridButtonSize.getWidth(),
+        // gridButtonSize.getWidth());
         add(nameBanner, gbc);
 
         JPanel panel = new JPanel(new GridLayout(GRID_SIZE, GRID_SIZE, 0, 0));
         panel.setBackground(null);
         // Set the size based on button count and size
-        panel.setPreferredSize(new Dimension(GRID_SIZE * gridButtonSize.getWidth(), GRID_SIZE * gridButtonSize.getWidth()));
+        panel.setPreferredSize(
+                new Dimension(GRID_SIZE * gridButtonSize.getWidth(), GRID_SIZE * gridButtonSize.getWidth()));
         panel.setMaximumSize(panel.getPreferredSize());
-//        panel.setMinimumSize(panel.getPreferredSize());
+        // panel.setMinimumSize(panel.getPreferredSize());
 
-        String[] rows = {"", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-        String[] cols = {"", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        String[] rows = { "", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
+        String[] cols = { "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
 
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
@@ -64,8 +71,11 @@ public class GridButtonBoard extends JPanel{
                     rowLabel.setBackground(Color.white);
                     panel.add(rowLabel);
                 } else {
-                    Constructor<?> constructor = classof.getConstructor(int.class, int.class, ButtonStyle.class, GUIController.class);
-                    buttons[row][col] = (classof.cast()) constructor.newInstance(row, col, buttonStyle, guiController);
+                    Constructor<?> constructor = classof.getConstructor(int.class, int.class, ButtonStyle.class,
+                            GUIController.class);
+                    // 类型错误报错：buttons[row][col] = (classof.cast()) constructor.newInstance(row, col,
+                    // buttonStyle, guiController);
+                    buttons[row][col] = classof.cast(constructor.newInstance(row, col, buttonStyle, guiController));
                     panel.add(buttons[row][col]);
                 }
             }
@@ -77,23 +87,28 @@ public class GridButtonBoard extends JPanel{
 
     public void setArrangedButtons(int row, int col, boolean isHorizontal, int length) {
         if (isHorizontal) {
-            for (int i = col; i < col + length; i++) buttons[row][i].confirmClick();
-          } else {
-            for (int i = row; i < row + length; i++) buttons[i][col].confirmClick();
+            for (int i = col; i < col + length; i++)
+                buttons[row][i].confirmClick();
+        } else {
+            for (int i = row; i < row + length; i++)
+                buttons[i][col].confirmClick();
         }
     }
 
     public void setPrevButton(int row, int col) {
         this.prevButton = buttons[row][col];
     }
+
     public GridButton getPrevButton() {
         return prevButton;
     }
 
     public void attackedButton(int row, int col, boolean isHit) {
         buttons[row][col].confirmClick();
-        if (isHit) buttons[row][col].setButtonHoverColor();
-        else buttons[row][col].setButtonPressedColor();
+        if (isHit)
+            buttons[row][col].setButtonHoverColor();
+        else
+            buttons[row][col].setButtonPressedColor();
     }
 
 }
