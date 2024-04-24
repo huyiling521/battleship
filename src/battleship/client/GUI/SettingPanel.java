@@ -1,5 +1,7 @@
 package battleship.client.GUI;
 
+import battleship.client.GUI.components.SettingButton;
+import battleship.client.GUI.components.SettingGridBoard;
 import battleship.client.GUI.style.ButtonStyle;
 import battleship.client.GUI.style.ComponentSize;
 import battleship.client.controller.GUIController;
@@ -12,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class SettingPanel extends JPanel{
-    private final GridButtonBoard player1;
+    private final SettingGridBoard player1;
     private static final ComponentSize playAreaSize = ComponentSize.GAME_PANEL;
     private static final ComponentSize windowSize = ComponentSize.WINDOW;
     private JLabel currPosition;
@@ -157,6 +159,7 @@ public class SettingPanel extends JPanel{
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                guiController.endGame();
                 guiController.toWelcomePanel();
             }
         });
@@ -172,7 +175,7 @@ public class SettingPanel extends JPanel{
         buttonPanel.setBackground(Color.white);
         buttonPanel.setOpaque(true);
         buttonPanel.setMaximumSize(new Dimension(200, 540));
-        player1 = new GridButtonBoard(SettingButton.class, ButtonStyle.PLAYER_SETTING, "Setting " + "name waiting", guiController);
+        player1 = new SettingGridBoard(ButtonStyle.PLAYER_SETTING, "Setting " + "name waiting", guiController);
 
         gbc.gridx++;
         add(player1, gbc);
@@ -191,5 +194,9 @@ public class SettingPanel extends JPanel{
         this.row = row;
         this.col = col;
         currPosition.setText("Current Bow Position:   " + (char)(row - 1 + 'A') + ", " + col);
+    }
+
+    public void checkPrevButtonStatus(SettingButton settingButton) {
+        player1.checkPrevButtonStatus(settingButton);
     }
 }

@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 public class WelcomePanel extends JPanel{
 
-    private JLabel messageLabel;
     public WelcomePanel(GUIController guiController) {
         super(new GridBagLayout());
 
@@ -26,21 +25,21 @@ public class WelcomePanel extends JPanel{
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, gbc);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 5, 5));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 1, 5, 5));
         buttonPanel.setBackground(Color.white);
         buttonPanel.setPreferredSize(new Dimension(200, 200));
         buttonPanel.setMaximumSize(buttonPanel.getPreferredSize());
         // Create buttons
         JButton singlePlayerButton = new JButton("Single Player");
         JButton twoPlayersButton = new JButton("Two Players");
-        JButton playOnlineButton = new JButton("Play Online");
+        JButton guideButton = new JButton("Guide");
         JButton exitButton = new JButton("Exit");
 
         // Add action listeners to buttons
         singlePlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.toPlayingPanel();
+                guiController.toOnePlayerPanel();
             }
         });
 
@@ -51,10 +50,10 @@ public class WelcomePanel extends JPanel{
             }
         });
 
-        playOnlineButton.addActionListener(new ActionListener() {
+        guideButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.toSettingPanel();
+                guiController.toGuidePanel();
             }
         });
 
@@ -66,22 +65,13 @@ public class WelcomePanel extends JPanel{
             }
         });
 
-        messageLabel = new JLabel("");
-        messageLabel.setForeground(Color.red);
-        // Create a panel with a grid layout to hold buttons
-        // Set background color of the panel to white
         buttonPanel.add(singlePlayerButton);
         buttonPanel.add(twoPlayersButton);
-        buttonPanel.add(playOnlineButton);
+        buttonPanel.add(guideButton);
         buttonPanel.add(exitButton);
-        buttonPanel.add(messageLabel);
 
         setBackground(Color.WHITE);
         gbc.gridy++;
         add(buttonPanel, gbc);
-    }
-
-    public void setMessageLabel(String message) {
-        this.messageLabel.setText(message);
     }
 }

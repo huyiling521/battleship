@@ -1,53 +1,66 @@
 package battleship.server;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
+import battleship.server.controller.GameController;
+import battleship.server.model.TwoPlayerBoard;
+import battleship.server.socket.MessageConstant;
+import battleship.server.socket.PlayerHandler;
+
+import java.util.*;
 
 // GameSession:
 // 与单个玩家的套接字连接。
-// 读取玩家发送的消息，并通过服务器的 broadcast 方法发送给所有其他玩家。
+// 读取玩家发送的消息，并通过服务器的 broadcastOpponentMessage 方法发送给所有其他玩家。
 // 在玩家断开连接时，清理资源。
-public class GameSession implements Runnable {
-    private Socket socket;
-    private GameServer server;
-    private PrintWriter writer;
+public class GameSession {
+    private List<PlayerHandler> players;
+    private List<GameController> controllers;
 
-    public GameSession(Socket socket, GameServer server) {
-        this.socket = socket;
-        this.server = server;
-    }
+    private Set<PlayerHandler> connected;
 
-    @Override
-    public void run() {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer = new PrintWriter(socket.getOutputStream(), true);
-
-            // 接收到玩家的操作后
-            String inputLine;
-            while ((inputLine = reader.readLine()) != null) {
-                // 调用 server 的广播功能
-                System.out.println("接收到来自玩家的消息：" + inputLine);
-                server.broadcast(inputLine, this);
-            }
-            // 异常
-        } catch (Exception e) {
-            System.out.println("处理玩家输入时发生错误：" + e.getMessage());
-            e.printStackTrace();
-            // 关闭
-        } finally {
-            try {
-                socket.close();
-            } catch (Exception e) {
-                System.out.println("关闭玩家连接时发生错误：" + e.getMessage());
-            }
-        }
+    public GameSession(List<PlayerHandler> players) {
+        this.players = players;
+        for (PlayerHandler player : players) player.setSession(this);
+        controllers = new ArrayList<>(Arrays.asList(new GameController(new TwoPlayerBoard()), new GameController(new TwoPlayerBoard())));
+        this.connected = new HashSet<>();
     }
 
     // 发送消息给当前玩家
-    public void sendMessage(String message) {
-        writer.println(message);
+    public void broadcastOpponentMessage(String message, int index) {
+        players.get(1 - index).receiveOpponentMessage(message);
+    }
+
+    public void broadcastSystemMessage(String message, int index) {
+        players.get(1 - index).receiveSystemMessage(message);
+    }
+
+    public void broadcastConnectionSuccess() {
+        for (PlayerHandler player : players) player.sendResponseMessage(MessageConstant.CONNECTION + MessageConstant.SUCCESS);
+    }
+
+    public void clearUp() {
+        for (PlayerHandler player : players) player.clearUp();
+        players.clear();
+    }
+    public int setShip(String req, int index) {
+        String[] params = req.split(",");
+        int row = Integer.parseInt(params[0]);
+        int col = Integer.parseInt(params[1]);
+        boolean isHorizontal = (params[2].equals("true"));
+        return controllers.get(index).placeOneShip(row, col, isHorizontal, params[3]);
+    }
+
+    public boolean shootAt(int row, int col, int index) {
+        return controllers.get(1 - index).attack(row, col);
+    }
+
+    public void connected(PlayerHandler playerHandler) {
+        connected.add(playerHandler);
+        if (connected.size() == 2) {
+            broadcastSystemMessage(MessageConstant.OPPONENT_NAME + players.get(0).getName(), 0);
+            broadcastSystemMessage(MessageConstant.OPPONENT_NAME + players.get(1).getName(), 1);
+        }
+    }
+
+    public void run() {
     }
 }

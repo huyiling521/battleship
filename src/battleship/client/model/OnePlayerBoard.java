@@ -1,11 +1,14 @@
-package battleship.server.model;
+package battleship.client.model;
 
-import battleship.server.model.ships.*;
+import battleship.client.model.ships.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 
-public class OnePlayerBoard implements IBoard{
+public class OnePlayerBoard implements IBoard {
 	
 	//Instance variables
 	
@@ -72,6 +75,7 @@ public class OnePlayerBoard implements IBoard{
 		//Create a new empty ocean
 		this.newOcean();
 		shipList = new ArrayList<>(Arrays.asList(aircraftCarrier, battleship1, battleship2, destroyer1, destroyer2, submarine1, submarine2, patrolBoat1, patrolBoat2, patrolBoat3, patrolBoat4));
+		placeAllShipsRandomly();
 	}
 	
 	/**
@@ -208,35 +212,16 @@ public class OnePlayerBoard implements IBoard{
 		if (row > 9 || row < 0 || col > 9 || col < 0) return false;
 
 		int length = ship.getLength();
-		if (horizontal) return col + length <= 10;
-		else return row + length <= 10;
-	}
-
-	private boolean okToPlaceShipAtAdjacent(int row, int col, boolean horizontal, Ship ship) {
-		//Check if the location the ship is planned to place to has enough space(not beyond ocean)
-		if (row > 9 || row < 0 || col > 9 || col < 0) return false;
-
-		int length = ship.getLength();
-
-		int[] rowRange = new int[2];
-		int[] colRange = new int[2];
+		if (horizontal &&  col + length > 10 || !horizontal && row + length > 10) return false;
 		if (horizontal) {
-			rowRange[1] = (row == 9)? 9 : row + 1;
-			colRange[1] = (col + length == 10)? 0 : col + length;
-		} else {
-			rowRange[1] = (row + length == 10)? 0 : row + length;
-			colRange[1] = (col == 9)? 9 : col + 1;
-		}
-		if (rowRange[0] < 0 || colRange[0] < 0) return false;
-
-		colRange[0] = (col == 0)? 0 : col - 1;
-		rowRange[0] = (row == 0)? 0 : row - 1;
-
-		//check is all the required spaces are empty
-		for (int i = rowRange[1]; i >= rowRange[0]; i--) {
-			for (int j = colRange[1]; j >= colRange[0]; j--) {
+			for (int i = col; i < col + length; i++) {
 				// Only if all spaces are free, return true
-				if (this.isOccupied(i, j)) return false;
+				if (this.isOccupied(row, i)) return false;
+			}
+		} else {
+			for (int i = row; i < row + length; i++) {
+				// Only if all spaces are free, return true
+				if (this.isOccupied(i, col)) return false;
 			}
 		}
 		return true;
@@ -297,6 +282,10 @@ public class OnePlayerBoard implements IBoard{
 	}
 	
 	//Getters and Setters
+
+	public Ship getShip(int row, int col) {
+		return ships[row][col];
+	}
 	/**
 	 * @return the 10x10 array of Ships(indicating the ocean)
 	 */

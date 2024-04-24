@@ -13,13 +13,8 @@ public class GameController {
         return twoPlayerBoard.placeOneShip(row, col, isHorizontal, shipType);
     }
 
-    public boolean receiveOpponentAttack(int row, int col) {
-        boolean isHit = twoPlayerBoard.shootAt(row, col);
-        return isHit; // Type Mismatch
-    }
-
     public boolean attack(int row, int col) {
-        return true;
+        return twoPlayerBoard.shootAt(row, col);
     }
 
 }
