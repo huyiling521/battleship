@@ -1,5 +1,6 @@
 package battleship.client.GUI;
 
+import battleship.client.GUI.components.PlayGridBoard;
 import battleship.client.GUI.style.ButtonStyle;
 import battleship.client.GUI.style.ComponentSize;
 import battleship.client.controller.GUIController;
@@ -11,26 +12,25 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
 public class PlayingPanel extends JPanel {
 
-    private final GridButtonBoard player1;
-    private final GridButtonBoard player2;
+    private final PlayGridBoard player1;
+    private final PlayGridBoard player2;
     private static final ComponentSize playAreaSize = ComponentSize.GAME_PANEL;
     private static final ComponentSize windowSize = ComponentSize.WINDOW;
     private static final ComponentSize chatAreaSize = ComponentSize.CHAT_PANEL;
-    private JTextPane messageArea;
-    private JTextField textField;
-    private String systemMessage = "";
-//    private int row;
-//    private int col;
-    private Style system;
-    private Style myText;
-    private Style otherText;
+    private final JTextPane messageArea;
+    private final JTextField textField;
+//    private String systemMessage = "";
+    private final Style system;
+    private final Style myText;
+    private final Style otherText;
+    private final GUIController guiController;
 
-    public PlayingPanel(GUIController guiController) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public PlayingPanel(GUIController guiController, String name, String opponentName) {
         super();
+        this.guiController = guiController;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.NONE;
@@ -39,8 +39,8 @@ public class PlayingPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        player1 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING1, "Your", guiController);
-        player2 = new GridButtonBoard(PlayingButton.class, ButtonStyle.PLAYER_PLAYING2, "Opponent", guiController);
+        player1 = new PlayGridBoard(ButtonStyle.PLAYER_PLAYING1, name, guiController);
+        player2 = new PlayGridBoard(ButtonStyle.PLAYER_PLAYING2, opponentName, guiController);
 
         add(player1, gbc);
         gbc.gridx++;
@@ -81,8 +81,13 @@ public class PlayingPanel extends JPanel {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addMessage(textField.getText(), myText, "You:\n");
-                textField.setText("");
+                try {
+                    addMessage(textField.getText(), myText, guiController.getName() + ":\n");
+                    guiController.sendOpponentMessage(textField.getText());
+                    textField.setText("");
+                } catch (Exception exception) {
+                    addSystemMessage("Error: " + exception.getMessage());
+                }
             }
         });
         // A panel for user input and send button
@@ -101,21 +106,13 @@ public class PlayingPanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                guiController.endGame();
                 guiController.toWelcomePanel();
             }
         });
         add(backButton, gbc);
-
         setBackground(Color.white);
     }
-
-//    @Override
-//    public void setPosition(int row, int col) {
-//        this.row = row;
-//        this.col = col;
-//        systemMessage = "You attacked (" + (char)(row - 1 + 'A') + ", " + col + ").";
-//        addMessage(systemMessage, system, "");
-//    }
 
     private void addMessage(String string, Style style, String tag) {
         try {
@@ -133,14 +130,14 @@ public class PlayingPanel extends JPanel {
     }
 
     public void addOpponentMessage(String string) {
-        addMessage(string, otherText, "Opponent:\n");
+        addMessage(string, otherText, guiController.getOpponentName()+":\n");
     }
 
-    public GridButtonBoard getPlayer1() {
+    public PlayGridBoard getPlayer1() {
         return player1;
     }
 
-    public GridButtonBoard getPlayer2() {
+    public PlayGridBoard getPlayer2() {
         return player2;
     }
 }

@@ -1,5 +1,7 @@
 package battleship.server.model;
 
+import battleship.server.model.ships.*;
+
 import java.util.*;
 
 
@@ -81,39 +83,6 @@ public class TwoPlayerBoard implements IBoard{
 		settingList.put("destroyer", new ArrayList<>(Arrays.asList(new Destroyer(), new Destroyer())));
 		settingList.put("submarine", new ArrayList<>(Arrays.asList(new Submarine(), new Submarine())));
 		settingList.put("patrolBoat", new ArrayList<>(Arrays.asList(new PatrolBoat(), new PatrolBoat(), new PatrolBoat(), new PatrolBoat())));
-	}
-	
-	/**
-	 * Place all ten ships randomly on the (initially empty) ocean.
-	 * Place larger ships before smaller ones
-	 */
-	public void placeAllShipsRandomly() {
-		//for each ship in the ship lists, place it randomly
-		for (Ship s: shipList) {
-			this.placeOneShipRandomly(s);
-		}
-	}
-
-	/**
-	 * Place one given type of ship randomly on ocean
-	 * @param ship for the ship to be placed
-	 */
-	private void placeOneShipRandomly(Ship ship) {
-		while (true) {
-			//Randomly assign a number from 1-10 to the row of the location on the ocean
-			int row = random.nextInt(10);
-			//Randomly assign a number from 1-10 to the column of the location on the ocean
-			int column = random.nextInt(10);
-			//Randomly set the ship to be placed horizontal or not
-			boolean isHorizontal = random.nextBoolean();
-			//Check if the ship can be put in this randomly created location
-			if (this.okToPlaceShipAt(row, column, isHorizontal, ship)) {
-				//if it can be placed, then just place it.
-				this.placeShipAt(row, column, isHorizontal, ship);
-				//Then exit the loop
-				break;
-			}
-		}
 	}
 
 	/**
@@ -202,36 +171,6 @@ public class TwoPlayerBoard implements IBoard{
 		return true;
 	}
 
-	private boolean okToPlaceShipAtAdjacent(int row, int col, boolean horizontal, Ship ship) {
-		//Check if the location the ship is planned to place to has enough space(not beyond ocean)
-		if (row > 9 || row < 0 || col > 9 || col < 0) return false;
-
-		int length = ship.getLength();
-
-		int[] rowRange = new int[2];
-		int[] colRange = new int[2];
-		if (horizontal) {
-			rowRange[1] = (row == 9)? 9 : row + 1;
-			colRange[1] = (col + length == 10)? 0 : col + length;
-		} else {
-			rowRange[1] = (row + length == 10)? 0 : row + length;
-			colRange[1] = (col == 9)? 9 : col + 1;
-		}
-		if (rowRange[0] < 0 || colRange[0] < 0) return false;
-
-		colRange[0] = (col == 0)? 0 : col - 1;
-		rowRange[0] = (row == 0)? 0 : row - 1;
-
-		//check is all the required spaces are empty
-		for (int i = rowRange[1]; i >= rowRange[0]; i--) {
-			for (int j = colRange[1]; j >= colRange[0]; j--) {
-				// Only if all spaces are free, return true
-				if (this.isOccupied(i, j)) return false;
-			}
-		}
-		return true;
-	}
-
 	/**
 	 * “Puts” the ship in the ocean.
 	 * This involves giving values to the bowRow, bowColumn, and horizontal instance variables in the ship
@@ -239,20 +178,16 @@ public class TwoPlayerBoard implements IBoard{
 	 * @param row for the given row to be checked
 	 * @param col for the given column checked
 	 * @param horizontal for the orientation
-	 * @param ship for the Ship to be placed
+	 * @param shipType for the type of Ship to be placed
 	 */
-	private void placeShipAt(int row, int col, boolean horizontal, Ship ship) {
-		//Set the row, column, and horizontal information to the ship itself
-		if (!okToPlaceShipAt(row, col, horizontal, ship)) throw new IllegalArgumentException("The place is invalid to place the ship.");
-		ship.placeAt(row, col, horizontal);
-		//Set the ship to the ocean accordingly
-		this.placeOneShip(ship);
-	}
 
 	public int placeOneShip(int row, int col, boolean horizontal, String shipType) {
 		List<Ship> currShipList = settingList.get(shipType);
 		if (currShipList.isEmpty()) throw new IllegalArgumentException("You have already placed all " + shipType);
-		this.placeShipAt(row, col, horizontal, currShipList.get(0));
+		Ship ship = currShipList.get(0);
+		if (!okToPlaceShipAt(row, col, horizontal, ship)) throw new IllegalArgumentException("The place is invalid to place the ship.");
+		ship.placeAt(row, col, horizontal);
+		this.placeOneShip(ship);
 		shipList.add(currShipList.get(0));
 		currShipList.remove(0);
 		return currShipList.size();
@@ -283,15 +218,15 @@ public class TwoPlayerBoard implements IBoard{
 			//Print each point on ocean
 			for(int j = 0; j < 10; j++) {
 				//If the point has been shoot
-				if (this.shootPoint[i][j]){
+//				if (this.shootPoint[i][j]){
 					//Determine if there is a real ship, a empty sea or sunk ship
 					System.out.print(this.ships[i][j].toString() + " ");
-				}
+//				}
 				//If the point has never been shot
-				else {
-					//Just print a "."
-					System.out.print("."+" ");
-				}
+//				else {
+//					//Just print a "."
+//					System.out.print("."+" ");
+//				}
 			}
 		}
 	}
