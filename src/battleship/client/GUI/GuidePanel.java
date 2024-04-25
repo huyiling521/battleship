@@ -25,7 +25,6 @@ public class GuidePanel extends JPanel {
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, gbc);
 
-        // Text area to show game rules
         gbc.gridy++;
         gbc.gridwidth = 1;
 
@@ -87,11 +86,10 @@ public class GuidePanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.toWelcomePanel(); // Assuming there's a method in GUIController to switch panels
+                guiController.toWelcomePanel();
             }
         });
 
-        // Button panel for layout consistency
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(backButton);
         buttonPanel.setBackground(Color.white);

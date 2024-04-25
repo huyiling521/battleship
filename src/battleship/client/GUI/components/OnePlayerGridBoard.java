@@ -13,5 +13,4 @@ public class OnePlayerGridBoard extends GridBoard<OnePlayerButton> {
     protected OnePlayerButton createPlaceholderButton(int row, int col, ButtonStyle buttonStyle, GUIController guiController) {
         return new OnePlayerButton(row, col, buttonStyle, guiController);
     }
-
 }

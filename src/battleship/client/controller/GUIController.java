@@ -12,22 +12,20 @@ import battleship.server.model.TwoPlayerBoard;
 import javax.swing.*;
 import java.awt.*;
 
-public class GUIController {
+public class GUIController implements IGUIController {
 
     private BattleshipFrame battleshipFrame;
     private OnePlayerGameController onePlayerGameController;
     private SettingPanel settingPanel;
-    private final WelcomePanel welcomePanel;
     private PlayingPanel playingPanel;
     private OnePlayerPanel onePlayerPanel;
-    private JPanel cardPanel;
-    private CardLayout cardLayout;
-    private GameController gameController;
+    private final JPanel cardPanel;
+    private final CardLayout cardLayout;
     private GameClient gameClient;
     private String name;
     private String opponentName;
     public GUIController() {
-        welcomePanel = new WelcomePanel(this);
+        WelcomePanel welcomePanel = new WelcomePanel(this);
         settingPanel = null;
         playingPanel = null;
         cardLayout = new CardLayout();
@@ -38,21 +36,11 @@ public class GUIController {
         cardLayout.show(cardPanel, "welcome");
     }
 
-    public void toPlayingPanel() {
-        try {
-            startGame();
-            playingPanel = new PlayingPanel(this, name, opponentName);
-//            this.gameController = new GameController(new TwoPlayerBoard());
-            cardPanel.add(playingPanel, "playing");
-            cardLayout.show(cardPanel, "playing");
-        } catch (Exception exception) {
-            throwWholeErrorMessage(exception.getMessage());
-        }
-    }
     public void toWelcomePanel() {
         settingPanel = null;
         playingPanel = null;
         onePlayerPanel = null;
+        gameClient = null;
         cardLayout.show(cardPanel, "welcome");
     }
 
@@ -68,7 +56,6 @@ public class GUIController {
         cardLayout.show(cardPanel, "guide");
     }
 
-
     public void toSettingPanel() {
         try {
             name = JOptionPane.showInputDialog(battleshipFrame, "Please Enter Your Name: ", "Set Name", JOptionPane.QUESTION_MESSAGE);
@@ -79,37 +66,44 @@ public class GUIController {
             }
             connectToServer();
             settingPanel = new SettingPanel(this);
-            this.gameController = new GameController(new TwoPlayerBoard());
             cardPanel.add(settingPanel, "setting");
             cardLayout.show(cardPanel, "setting");
-            JOptionPane.showMessageDialog(battleshipFrame, "Successful connected!\nWait for another player...", "Connecting", JOptionPane.INFORMATION_MESSAGE);
-            gameClient.sendGameMessage(MessageConstant.CONNECTION);
-            JOptionPane.showMessageDialog(battleshipFrame, "Player matched!\nGame start.", "Connected", JOptionPane.INFORMATION_MESSAGE);
+            throwInformationMessage("Successfully connected!\nWait for another player...", "Connecting");
+            String res = gameClient.sendGameMessage(MessageConstant.CONNECTION);
+            if (res.startsWith(MessageConstant.GAME_QUIT)) {
+                throwWholeErrorMessage(res.substring(res.lastIndexOf(":") + 1));
+                gameClient.close();
+                toWelcomePanel();
+            } else {
+                opponentName = res.substring(res.lastIndexOf(":") + 1);
+                throwInformationMessage("Player matched!\nGame start.", "Connected");
+            }
+        } catch (Exception exception) {
+            throwWholeErrorMessage(exception.getMessage());
+        }
+    }
+
+    public void toPlayingPanel() {
+        try {
+            playingPanel = new PlayingPanel(this, name, opponentName);
+            cardPanel.add(playingPanel, "playing");
+            cardLayout.show(cardPanel, "playing");
+            throwInformationMessage("Wait for another player to complete setting...", "Connecting");
+            startGame();
+            throwInformationMessage("Game start!", "Connected");
         } catch (Exception exception) {
             throwWholeErrorMessage(exception.getMessage());
         }
     }
 
     private void connectToServer() throws Exception {
-        // 创建游戏客户端，连接到服务器
         gameClient = new GameClient("localhost", 1235, this);
-//        messageController = new MessageController(gameClient, this);
-        // 示例：发送一条消息到服务器
         String res = gameClient.sendGameMessage(MessageConstant.NAME_SETTING + name);
-        System.out.println("Received from server: " + res);
-        // 关闭连接
-//        gameClient.close();
     }
 
-    public int setShip(int row, int col, boolean isHorizontal, String shipType) throws Exception {
-        return gameClient.setShip((row - 1) + "," + (col - 1) + "," + isHorizontal + "," + shipType);
-    }
-
-    public void startGame(){
+    private void startGame(){
         try {
             String res = gameClient.sendGameMessage(MessageConstant.GAME_START);
-            opponentName = res;
-            toPlayingPanel();
         } catch (Exception e) {
             throwWholeErrorMessage(e.getMessage());
         }
@@ -117,7 +111,7 @@ public class GUIController {
 
     public void endGame(){
         try {
-            String res = gameClient.sendGameMessage(MessageConstant.GAME_END);
+            String res = gameClient.sendGameMessage(MessageConstant.GAME_QUIT);
         } catch (Exception e) {
             throwWholeErrorMessage(e.getMessage());
         }
@@ -138,6 +132,9 @@ public class GUIController {
         playingPanel.addSystemMessage(message);
     }
 
+    public int setShip(int row, int col, boolean isHorizontal, String shipType) throws Exception {
+        return gameClient.setShip((row - 1) + "," + (col - 1) + "," + isHorizontal + "," + shipType);
+    }
 
     public boolean attack(PlayingButton newButton) throws Exception {
         String[] pos = newButton.getActionCommand().split(",");
@@ -152,6 +149,10 @@ public class GUIController {
 
     public void throwWholeErrorMessage(String message) {
         JOptionPane.showMessageDialog(battleshipFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void throwInformationMessage(String message, String title) {
+        JOptionPane.showMessageDialog(battleshipFrame, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void getClickedSettingButton(SettingButton newButton) {
@@ -178,6 +179,10 @@ public class GUIController {
         return cardPanel;
     }
 
+    public void setBattleshipFrame(BattleshipFrame battleshipFrame) {
+        this.battleshipFrame = battleshipFrame;
+    }
+
     //the following is for single player
 
     public boolean attackComputer(OnePlayerButton onePlayerButton) {
@@ -191,7 +196,7 @@ public class GUIController {
             if (onePlayerGameController.isSunk(row - 1, col - 1)) onePlayerPanel.addSystemMessage("You sunk a " + onePlayerGameController.getShipType(row - 1, col - 1));
             if (onePlayerGameController.isGameOver()) {
                 String conclusion = onePlayerGameController.getConclusion();
-                JOptionPane.showMessageDialog(battleshipFrame, conclusion, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                throwInformationMessage(conclusion, "Game Over");
                 int response = JOptionPane.showConfirmDialog(battleshipFrame, "Play again?", "No, thanks", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
                     toOnePlayerPanel();
@@ -202,9 +207,5 @@ public class GUIController {
         }
         else onePlayerPanel.addSystemMessage(systemMessage + "MISS");
         return isHit;
-    }
-
-    public void setBattleshipFrame(BattleshipFrame battleshipFrame) {
-        this.battleshipFrame = battleshipFrame;
     }
 }

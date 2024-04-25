@@ -22,7 +22,6 @@ public class PlayingPanel extends JPanel {
     private static final ComponentSize chatAreaSize = ComponentSize.CHAT_PANEL;
     private final JTextPane messageArea;
     private final JTextField textField;
-//    private String systemMessage = "";
     private final Style system;
     private final Style myText;
     private final Style otherText;
@@ -34,14 +33,27 @@ public class PlayingPanel extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(0,40,0,40);
         gbc.gridx = 0;
         gbc.gridy = 0;
 
+        JButton backButton = new JButton("Quit");
+        backButton.setPreferredSize(new Dimension(100,40));
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guiController.endGame();
+                guiController.toWelcomePanel();
+            }
+        });
+        add(backButton, gbc);
+
+        gbc.anchor = GridBagConstraints.CENTER;
         player1 = new PlayGridBoard(ButtonStyle.PLAYER_PLAYING1, name, guiController);
         player2 = new PlayGridBoard(ButtonStyle.PLAYER_PLAYING2, opponentName, guiController);
 
+        gbc.gridy++;
         add(player1, gbc);
         gbc.gridx++;
         add(player2, gbc);
@@ -55,7 +67,6 @@ public class PlayingPanel extends JPanel {
         messageArea.setEditable(false);
         messageArea.setPreferredSize(new Dimension(300, 130));
         messageArea.setMaximumSize(new Dimension(300, 130));
-        // Define a style and set colors
 
         system = messageArea.addStyle("system", null);
         myText = messageArea.addStyle("my", null);
@@ -67,13 +78,11 @@ public class PlayingPanel extends JPanel {
         StyleConstants.setForeground(otherText, Color.BLACK);
         StyleConstants.setAlignment(otherText, StyleConstants.ALIGN_LEFT);
 
-        // Scroll Pane for the TextArea
         JScrollPane scrollPane = new JScrollPane(messageArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(300, 130));
         scrollPane.setMaximumSize(new Dimension(300, 130));// Adjust size as needed
 
-        // Adding the scroll pane with message display area to the center
         add(scrollPane, gbc);
 
         textField = new JTextField();
@@ -82,7 +91,7 @@ public class PlayingPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    addMessage(textField.getText(), myText, guiController.getName() + ":\n");
+                    addMessage(textField.getText(), myText, (name == null? "You" : name) + ":\n");
                     guiController.sendOpponentMessage(textField.getText());
                     textField.setText("");
                 } catch (Exception exception) {
@@ -90,7 +99,7 @@ public class PlayingPanel extends JPanel {
                 }
             }
         });
-        // A panel for user input and send button
+
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
         inputPanel.add(textField, BorderLayout.CENTER);
@@ -100,17 +109,6 @@ public class PlayingPanel extends JPanel {
         gbc.gridy++;
         add(inputPanel, gbc);
 
-        gbc.gridy++;
-        gbc.gridwidth = 1;
-        JButton backButton = new JButton("Quit");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guiController.endGame();
-                guiController.toWelcomePanel();
-            }
-        });
-        add(backButton, gbc);
         setBackground(Color.white);
     }
 

@@ -1,5 +1,6 @@
 package battleship.server.model;
 
+import battleship.server.controller.GameController;
 import battleship.server.model.ships.*;
 
 import java.util.*;
@@ -278,5 +279,9 @@ public class TwoPlayerBoard implements IBoard{
 
 	public void setShootPoint(boolean[][] shootPoint) {
 		this.shootPoint = shootPoint;
+	}
+
+	public Ship getShip(int row, int col) {
+		return ships[row][col];
 	}
 }
