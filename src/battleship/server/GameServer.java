@@ -1,102 +1,46 @@
 package battleship.server;
 
-import battleship.server.socket.GameSession;
-import battleship.server.socket.MessageConstant;
-import battleship.server.socket.PlayerHandler;
+import static org.mockito.Mockito.*;
 
-import java.io.IOException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-// GameServer 提供连接和广播功能
-public class GameServer {
-    private static final int PORT = 1235;
-    private List<GameSession> sessions = new ArrayList<>();
-    private volatile boolean isRunning = true;
-    ServerSocket serverSocket;
-    private long lastConnectionTime;
-    private GameSession session;
-    private Timer shutdownTimer;
+public class GameServerTest {
+    private GameServer server;
+    private ServerSocket mockServerSocket;
+    private Socket mockSocket;
 
-    public static void main(String[] args) {
-        GameServer server = new GameServer();
-        server.startServer();
+    @BeforeEach
+    void setup() throws Exception {
+        // 创建模拟对象
+        mockServerSocket = mock(ServerSocket.class);
+        mockSocket = mock(Socket.class);
+
+        // 实例化 GameServer，但不启动它
+        server = new GameServer();
+
+        // 使用 Mockito 控制 ServerSocket 行为
+        when(mockServerSocket.accept()).thenReturn(mockSocket);
+
+        // 反射或者其他方式设置私有字段
+        setPrivateField(server, "serverSocket", mockServerSocket);
+        setPrivateField(server, "isRunning", true); // 控制循环条件
     }
 
-    public void startServer() {
-        System.out.println("Server Stared:");
-        lastConnectionTime = System.currentTimeMillis(); // 初始化最后连接时间
-        setupShutdownTimer();
-        try {
-            serverSocket = new ServerSocket(PORT);
-            while (isRunning) {
-                session = new GameSession(new ArrayList<>());
-                while (session.getSize() < 2) {
-                    Socket playerSocket = serverSocket.accept();
-                    lastConnectionTime = System.currentTimeMillis();
-                    PlayerHandler playerHandler = new PlayerHandler(playerSocket, session.getSize());
-                    System.out.println("Player" + (session.getSize() + 1) + " connected.");
-                    playerHandler.sendResponseMessage(MessageConstant.SUCCESS + "User Connected!");
-                    session.add(playerHandler);
-                    playerHandler.setSession(session);
-                    new Thread(playerHandler).start();
-                }
-                sessions.add(session);
-                session.broadcastOpponentInfo();
-            }
-        } catch (Exception e) {
-            if (isRunning) {
-                e.printStackTrace();
-            } else {
-                System.out.println("Server is shutting down.");
-            }
-        }
+    @Test
+    void testAcceptConnections() throws Exception {
+        // 模拟一次连接接受
+        server.runServerLoop();
+        verify(mockServerSocket, times(1)).accept();
+        verify(mockSocket, atLeastOnce()).getInputStream(); // 检查是否调用了获取输入流
     }
 
-    public void endGameSession(GameSession session) {
-        sessions.remove(session);
-        session.clearUp();
-    }
-    private void setupShutdownTimer() {
-        shutdownTimer = new Timer();
-        shutdownTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (System.currentTimeMillis() - lastConnectionTime > 30000 && session.getSize() == 1) {
-                    session.sendSystemResponseMessage(MessageConstant.GAME_QUIT + "No player matched, ending the session.", 0);
-                    System.out.println("No new connections to current sessions, shutting down server.");
-                    session.clearUp();
-                }
-                if (System.currentTimeMillis() - lastConnectionTime > 600000 && sessions.isEmpty()) {
-                    System.out.println("No new connections and no active sessions, shutting down server.");
-                    closeServer();
-                }
-            }
-        }, 0, 60000);
-    }
-
-    public void closeServer() {
-        System.out.println("Closing server...");
-        isRunning = false;
-        try {
-            for (GameSession session : sessions) {
-                session.clearUp();
-            }
-            sessions.clear();
-            if (shutdownTimer != null) {
-                shutdownTimer.cancel();
-                shutdownTimer = null;
-            }
-            if (serverSocket != null && !serverSocket.isClosed()) {
-                serverSocket.close();
-            }
-        } catch (IOException e) {
-            System.err.println("Error closing the server: " + e.getMessage());
-        }
-        System.out.println("Server closed successfully.");
+    // 反射工具方法，用于设置私有字段
+    private void setPrivateField(Object object, String fieldName, Object value) throws Exception {
+        var field = object.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(object, value);
     }
 }
