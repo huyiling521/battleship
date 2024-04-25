@@ -53,7 +53,6 @@ public class OnePlayerPanel extends JPanel {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
 
-        // 将文本区域放入滚动窗格
         scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(550, 450));
@@ -104,7 +103,6 @@ public class OnePlayerPanel extends JPanel {
         setBackground(Color.white);
 
     }
-
 
     public void addSystemMessage(String string) {
         messageArea.setText(messageArea.getText() + string + "\n");

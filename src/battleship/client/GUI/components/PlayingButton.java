@@ -8,12 +8,10 @@ import java.awt.event.MouseListener;
 
 public class PlayingButton extends GridButton{
 
-    private final ButtonStyle buttonStyle;
     private final GUIController guiController;
 
     public PlayingButton(int row, int col, ButtonStyle buttonStyle, GUIController guiController) {
         super(row, col, guiController);
-        this.buttonStyle = buttonStyle;
         this.guiController = guiController;
         setHoverColor(buttonStyle.getHoverColor());
         setOriginalColor(buttonStyle.getOriginalColor());
@@ -31,21 +29,22 @@ public class PlayingButton extends GridButton{
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if (!isClicked() && isEnabled()) { // Ensure action is performed only once
+            if (!isClicked() && isEnabled()) {
                 setClicked(true);
-                this.setEnabled(false); // Disable the button to prevent further clicks
+                this.setEnabled(false);
                 if (guiController.attack(this))
-                    setBackground(buttonStyle.getHoverColor()); // Change color to indicate disabled state;
-                else setBackground(buttonStyle.getDisabledColor()); // Change color to indicate disabled state
+                    setBackground(getHoverColor());
+                else setBackground(getDisabledColor());
             }
         } catch (Exception exception) {
+            clearClick();
             guiController.throwWholeErrorMessage(exception.getMessage());
         }
     }
 
     public void opponentAttacked(boolean isHit) {
         setClicked(true);
-        if (isHit) setBackground(buttonStyle.getHoverColor()); // Change color to indicate disabled state;
-        else setBackground(buttonStyle.getDisabledColor());
+        if (isHit) setBackground(getHoverColor()); // Change color to indicate disabled state;
+        else setBackground(getDisabledColor());
     }
 }

@@ -31,12 +31,12 @@ public class OnePlayerButton extends GridButton{
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if (!isClicked() && isEnabled()) { // Ensure action is performed only once
+            if (!isClicked() && isEnabled()) {
                 setClicked(true);
-                this.setEnabled(false); // Disable the button to prevent further clicks
+                this.setEnabled(false);
                 if (guiController.attackComputer(this))
-                    setBackground(buttonStyle.getHoverColor()); // Change color to indicate disabled state;
-                else setBackground(buttonStyle.getDisabledColor()); // Change color to indicate disabled state
+                    setBackground(buttonStyle.getHoverColor());
+                else setBackground(buttonStyle.getDisabledColor());
             }
         } catch (Exception exception) {
             guiController.throwWholeErrorMessage(exception.getMessage());

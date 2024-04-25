@@ -22,13 +22,6 @@ public class SettingGridBoard extends GridBoard<SettingButton> {
         }
     }
 
-//    public void setPrevSettingButton(int row, int col) {
-//        this.prevSettingButton = getButton(row, col);
-//    }
-//
-//    public SettingButton getPrevSettingButton() {
-//        return prevSettingButton;
-//    }
 
     @Override
     protected SettingButton createPlaceholderButton(int row, int col, ButtonStyle buttonStyle, GUIController guiController) {
@@ -38,5 +31,13 @@ public class SettingGridBoard extends GridBoard<SettingButton> {
     public void checkPrevButtonStatus(SettingButton settingButton) {
         if (prevSettingButton != null && prevSettingButton.isEnabled()) prevSettingButton.clearClick();
         prevSettingButton = settingButton;
+    }
+
+    public void setPrevSettingButton(int row, int col) {
+        this.prevSettingButton = getButton(row, col);
+    }
+
+    public SettingButton getPrevSettingButton() {
+        return prevSettingButton;
     }
 }

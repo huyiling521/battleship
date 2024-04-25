@@ -24,21 +24,24 @@ public abstract class GridButton extends JButton implements ActionListener {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (!isButtonPressed && !isClicked) { // Check if the button hasn't been clicked
+                // Check if the button hasn't been clicked
+                if (!isButtonPressed && !isClicked) {
                     setBackground(hoverColor);
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (!isClicked) { // Only reset color if not clicked
+                // Only reset color if not clicked
+                if (!isClicked) {
                     setBackground(originalColor);
                 }
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!isClicked) { // Check if the button hasn't been clicked
+                // Check if the button hasn't been clicked
+                if (!isClicked) {
                     isButtonPressed = true;
                     setBackground(pressedColor);
                 }
@@ -46,6 +49,7 @@ public abstract class GridButton extends JButton implements ActionListener {
 
             @Override
             public void mouseReleased(MouseEvent e) {
+                // Check if the button hasn't been clicked set to hover color
                 isButtonPressed = false;
                 if (!isClicked && contains(e.getPoint())) {
                     setBackground(hoverColor);
@@ -53,7 +57,6 @@ public abstract class GridButton extends JButton implements ActionListener {
             }
         });
 
-        // Adjust the visual settings to preserve default animation
         this.setBackground(originalColor);
         this.setFocusPainted(true);
         this.setContentAreaFilled(true);
@@ -63,25 +66,34 @@ public abstract class GridButton extends JButton implements ActionListener {
         this.setBorder(BorderFactory.createLineBorder(Color.white, 1, true));
     }
 
-    public void setButtonHoverColor() {
-        this.setBackground(hoverColor);
-    }
-
-    public void setButtonPressedColor() {
-        this.setBackground(pressedColor);
-    }
-
-    public boolean isButtonPressed() {
-        return isButtonPressed;
-    }
-
     public boolean isClicked() {
         return isClicked;
     }
 
+    public void clearClick() {
+        setClicked(false);
+        this.setEnabled(true);
+        setBackground(getOriginalColor());// Disable the button to prevent further clicks
+    }
 
     public void setButtonPressed(boolean buttonPressed) {
         isButtonPressed = buttonPressed;
+    }
+
+    public Color getOriginalColor() {
+        return originalColor;
+    }
+
+    public Color getPressedColor() {
+        return pressedColor;
+    }
+
+    public Color getHoverColor() {
+        return hoverColor;
+    }
+
+    public Color getDisabledColor() {
+        return disabledColor;
     }
 
     public void setClicked(boolean clicked) {

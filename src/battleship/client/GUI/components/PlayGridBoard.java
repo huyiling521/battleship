@@ -17,5 +17,4 @@ public class PlayGridBoard extends GridBoard<PlayingButton> {
     protected PlayingButton createPlaceholderButton(int row, int col, ButtonStyle buttonStyle, GUIController guiController) {
         return new PlayingButton(row, col, buttonStyle, guiController);
     }
-
 }

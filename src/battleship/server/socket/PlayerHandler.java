@@ -1,6 +1,6 @@
 package battleship.server.socket;
 
-import battleship.server.GameSession;
+import battleship.server.GameServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,14 +18,11 @@ public class PlayerHandler implements Runnable {
     private PrintWriter writer;
     private BufferedReader reader;
     private String name;
-    private int index;
-    private boolean gameEnd;
-
+    private final int index;
 
     public PlayerHandler(Socket socket, int index) throws IOException {
         this.socket = socket;
         this.index = index;
-        this.gameEnd = false;
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         // Setup output to send data to client
         writer = new PrintWriter(socket.getOutputStream(), true);
@@ -36,20 +33,13 @@ public class PlayerHandler implements Runnable {
     @Override
     public void run() {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            // 接收到玩家的操作后
             String inputLine;
-            while ((inputLine = reader.readLine()) != null) {
-                System.out.println("Receiving message from " + this.name + "：" + inputLine);
+            while (!socket.isClosed() && (inputLine = reader.readLine()) != null) {
+                System.out.println(this.name + "：" + inputLine);
                 allocate(inputLine);
-                if (gameEnd) {
-                    session.clearUp();
-                    break;
-                }
             }
-            // 异常
-        } catch (Exception e) {
-            sendResponseMessage(MessageConstant.ERROR + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error when closing socket IOE：" + e.getMessage());
         } finally {
             try {
                 if (socket != null && !socket.isClosed()) socket.close();
@@ -60,47 +50,45 @@ public class PlayerHandler implements Runnable {
     }
 
     private void allocate(String req) {
-        if (req.startsWith(MessageConstant.REQUEST)) {
-            req = req.substring(8);
-            if (req.startsWith(MessageConstant.SETTING)) {
-                int remain = session.setShip(req.substring(8), index);
-                sendResponseMessage(MessageConstant.SUCCESS + remain);
-            } else if (req.startsWith(MessageConstant.ATTACK)) {
-                String[] reqArr = req.split(",");
-                int row = Integer.parseInt(reqArr[1]);
-                int col = Integer.parseInt(reqArr[2]);
-                boolean isHit = session.shootAt(row, col, index);
-                sendResponseMessage("" + isHit);
-                session.broadcastSystemMessage(MessageConstant.OPPONENT_ATTACK + isHit + "," + (row + 1) + "," + (col + 1), index);
-            } else if (req.startsWith(MessageConstant.GAME_START)) {
-                session.connected(this);
-            } else if (req.startsWith(MessageConstant.GAME_END)) {
-                gameEnd = true;
-                sendResponseMessage(MessageConstant.GAME_END + " You have ended the game.");
-                session.broadcastSystemMessage(MessageConstant.GAME_END + this.name + "has ended the game.", index);
+        try {
+            if (req.startsWith(MessageConstant.REQUEST)) {
+                req = req.substring(req.indexOf(":") + 1);
+                if (req.startsWith(MessageConstant.SETTING)) {
+                    int remain = session.setShip(req.substring(req.indexOf(":") + 1), index);
+                    sendResponseMessage(MessageConstant.SUCCESS + remain);
+                } else if (req.startsWith(MessageConstant.ATTACK)) {
+                    session.processPlayerMove(req.substring(req.lastIndexOf(":") + 1), index);
+                } else if (req.startsWith(MessageConstant.GAME_START)) {
+                    session.connected(this);
+                } else if (req.startsWith(MessageConstant.GAME_QUIT)) {
+                    session.broadcastSystemMessage(MessageConstant.GAME_QUIT + this.name + " has ended the game.", index);
+                    sendResponseMessage(MessageConstant.GAME_QUIT + " You have ended the game.");
+                    session.setGameEnd(true);
+                }
+            } else if (req.startsWith(MessageConstant.MESSAGE)) {
+                sendResponseMessage(MessageConstant.SUCCESS);
+                session.broadcastOpponentMessage(req.substring(req.indexOf(":") + 1), index);
             }
-        } else if (req.startsWith(MessageConstant.MESSAGE)) {
-            session.broadcastOpponentMessage(req.substring(11), index);
+        } catch (Exception e) {
+            sendResponseMessage(MessageConstant.ERROR + e.getMessage());
         }
     }
 
     public void clearUp() {
         try {
             if (socket != null && !socket.isClosed()) {
-                socket.close(); // 关闭与客户端的连接
+                socket.close();
             }
         } catch (IOException e) {
             System.out.println("Error closing socket.");
         }
     }
 
-
-    // 发送消息给当前玩家
-    public void receiveOpponentMessage(String message) {
+    public void sendOpponentMessage(String message) {
         writer.println(MessageConstant.NOTIFICATION + MessageConstant.OPPONENT_MESSAGE +message);
     }
 
-    public void receiveSystemMessage(String message) {
+    public void sendSystemMessage(String message) {
         writer.println(MessageConstant.NOTIFICATION + MessageConstant.SYSTEM_MESSAGE + message);
     }
 

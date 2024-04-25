@@ -58,11 +58,8 @@ public class SettingPanel extends JPanel{
 
         JButton setShip = new JButton("Set The Ship");
         JButton quitGame = new JButton("Quit");
-//        setShip.set(ButtonStyle.PLAYER_SETTING.getHoverColor());
         JButton startGame = new JButton("Start");
         startGame.setVisible(false);
-//        startGame.setForeground(ButtonStyle.PLAYER_SETTING.getHoverColor());
-//        startGame.setOpaque(true);
 
         buttonPanel.add(aircraftCarrier);
         buttonPanel.add(battleship);
@@ -152,6 +149,7 @@ public class SettingPanel extends JPanel{
                     player1.setArrangedButtons(row, col, isHorizontal, Integer.parseInt(currShip.getActionCommand().split(",")[1]));
                 } catch (Exception exception) {
                     messageLabel.setText(exception.getMessage());
+                    player1.checkPrevButtonStatus(null);
                 }
             }
         });
@@ -166,7 +164,7 @@ public class SettingPanel extends JPanel{
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                guiController.startGame();
+                guiController.toPlayingPanel();
             }
         });
         gbc.gridx = 0;
@@ -175,7 +173,7 @@ public class SettingPanel extends JPanel{
         buttonPanel.setBackground(Color.white);
         buttonPanel.setOpaque(true);
         buttonPanel.setMaximumSize(new Dimension(200, 540));
-        player1 = new SettingGridBoard(ButtonStyle.PLAYER_SETTING, "Setting " + "name waiting", guiController);
+        player1 = new SettingGridBoard(ButtonStyle.PLAYER_SETTING, guiController.getName(), guiController);
 
         gbc.gridx++;
         add(player1, gbc);

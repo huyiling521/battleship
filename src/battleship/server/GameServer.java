@@ -1,18 +1,26 @@
 package battleship.server;
 
+import battleship.server.socket.GameSession;
 import battleship.server.socket.MessageConstant;
 import battleship.server.socket.PlayerHandler;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // GameServer 提供连接和广播功能
 public class GameServer {
-    // 服务器监听指定端口
     private static final int PORT = 1235;
-    private List<PlayerHandler> players = new ArrayList<>();
+    private List<GameSession> sessions = new ArrayList<>();
+    private volatile boolean isRunning = true;
+    ServerSocket serverSocket;
+    private long lastConnectionTime;
+    private GameSession session;
+    private Timer shutdownTimer;
 
     public static void main(String[] args) {
         GameServer server = new GameServer();
@@ -20,37 +28,75 @@ public class GameServer {
     }
 
     public void startServer() {
-        System.out.println("服务器已启动，等待玩家连接...");
-        ServerSocket serverSocket = null;
+        System.out.println("Server Stared:");
+        lastConnectionTime = System.currentTimeMillis(); // 初始化最后连接时间
+        setupShutdownTimer();
         try {
             serverSocket = new ServerSocket(PORT);
-            while (players.size() < 2) {
-                // 连接
-                Socket playerSocket = serverSocket.accept();
-                PlayerHandler playerHandler = new PlayerHandler(playerSocket, players.size());
-                System.out.println("Player" + (players.size() + 1 ) + " connected.");
-                playerHandler.sendResponseMessage(MessageConstant.SUCCESS + "User Connected!");
-                players.add(playerHandler);
-                new Thread(playerHandler).start();
-            }
-            GameSession session = new GameSession(players);
-            session.broadcastConnectionSuccess();
-            session.run();
-            session.clearUp();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (serverSocket != null) {
-                try {
-                    serverSocket.close(); // 确保在finally块中关闭ServerSocket
-                } catch (Exception e) {
-                    e.printStackTrace();
+            while (isRunning) {
+                session = new GameSession(new ArrayList<>());
+                while (session.getSize() < 2) {
+                    Socket playerSocket = serverSocket.accept();
+                    lastConnectionTime = System.currentTimeMillis();
+                    PlayerHandler playerHandler = new PlayerHandler(playerSocket, session.getSize());
+                    System.out.println("Player" + (session.getSize() + 1) + " connected.");
+                    playerHandler.sendResponseMessage(MessageConstant.SUCCESS + "User Connected!");
+                    session.add(playerHandler);
+                    playerHandler.setSession(session);
+                    new Thread(playerHandler).start();
                 }
+                sessions.add(session);
+                session.broadcastOpponentInfo();
+            }
+        } catch (Exception e) {
+            if (isRunning) {
+                e.printStackTrace();
+            } else {
+                System.out.println("Server is shutting down.");
             }
         }
     }
 
-    public void endGame() {
-        players = null;
+    public void endGameSession(GameSession session) {
+        sessions.remove(session);
+        session.clearUp();
+    }
+    private void setupShutdownTimer() {
+        shutdownTimer = new Timer();
+        shutdownTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (System.currentTimeMillis() - lastConnectionTime > 30000 && session.getSize() == 1) {
+                    session.sendSystemResponseMessage(MessageConstant.GAME_QUIT + "No player matched, ending the session.", 0);
+                    System.out.println("No new connections to current sessions, shutting down server.");
+                    session.clearUp();
+                }
+                if (System.currentTimeMillis() - lastConnectionTime > 600000 && sessions.isEmpty()) {
+                    System.out.println("No new connections and no active sessions, shutting down server.");
+                    closeServer();
+                }
+            }
+        }, 0, 60000);
+    }
+
+    public void closeServer() {
+        System.out.println("Closing server...");
+        isRunning = false;
+        try {
+            for (GameSession session : sessions) {
+                session.clearUp();
+            }
+            sessions.clear();
+            if (shutdownTimer != null) {
+                shutdownTimer.cancel();
+                shutdownTimer = null;
+            }
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Error closing the server: " + e.getMessage());
+        }
+        System.out.println("Server closed successfully.");
     }
 }

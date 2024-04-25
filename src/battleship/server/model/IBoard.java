@@ -20,6 +20,4 @@ public interface IBoard {
          * @return true if all ships have been sunk, otherwise false
          */
     boolean isGameOver();
-
-    void print();
 }

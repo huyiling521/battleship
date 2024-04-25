@@ -34,9 +34,7 @@ public abstract class GridBoard<T extends GridButton> extends JPanel {
         nameBanner.setHorizontalTextPosition(SwingConstants.CENTER);
         nameBanner.setVerticalTextPosition(SwingConstants.CENTER);
         nameBanner.setPreferredSize(
-                new Dimension((GRID_SIZE - 1) * gridButtonSize.getWidth(), gridButtonSize.getHeight())); // Set
-                                                                                                         // preferred
-                                                                                                         // size
+                new Dimension((GRID_SIZE - 1) * gridButtonSize.getWidth(), gridButtonSize.getHeight()));
         nameBanner.setMinimumSize(nameBanner.getPreferredSize()); // Set minimum size
         nameBanner.setMaximumSize(nameBanner.getPreferredSize());
 
