@@ -4,28 +4,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>finalproj.battleship</groupId>
-    <artifactId>battleship</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <artifactId>battleship</artifactId>
+        <groupId>finalproj.battleship</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <modules>
-        <module>common</module>
-        <module>client</module>
-        <module>server</module>
-    </modules>
+    <groupId>finalproj.battleship</groupId>
+    <artifactId>battlehip-common</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    <dependencyManagement>
-        <dependencies>
+
+    <dependencies>
         <!-- JUnit Jupiter API -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -33,7 +31,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -41,14 +38,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-swing</artifactId>
-            <version>3.17.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -56,10 +51,9 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.6.0</version>
         </dependency>
 
-        </dependencies>
-    </dependencyManagement>
+    </dependencies>
+
 
 </project>
