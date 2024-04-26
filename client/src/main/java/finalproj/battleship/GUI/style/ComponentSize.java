@@ -4,7 +4,6 @@ public enum ComponentSize {
     WINDOW(1200, 800),
     WELCOME_PANEL(400, 400),
     GAME_PANEL(800, 800),
-//    GRID_BOARD(440, 600),
     CHAT_PANEL(770, 180),
     GRID_BUTTON(35);
 
