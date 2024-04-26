@@ -1,6 +1,6 @@
 package battleship.server.controller;
 
-import battleship.model.ships.ShipType;
+import battleship.common.model.ships.ShipType;
 import battleship.server.model.TwoPlayerBoard;
 
 public class TwoPlayerGameController implements IGameController{

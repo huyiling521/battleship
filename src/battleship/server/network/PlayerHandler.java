@@ -1,6 +1,6 @@
 package battleship.server.network;
 
-import battleship.model.network.MessageConstant;
+import battleship.common.network.MessageConstant;
 
 import java.io.BufferedReader;
 import java.io.IOException;

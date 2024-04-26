@@ -6,6 +6,8 @@ import battleship.client.GUI.components.PlayingButton;
 import battleship.client.GUI.components.SettingButton;
 import battleship.client.network.GameClient;
 
+import battleship.common.network.MessageConstant;
+
 import javax.swing.*;
 import java.awt.*;
 

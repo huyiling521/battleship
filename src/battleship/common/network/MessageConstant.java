@@ -1,4 +1,4 @@
-package battleship.model.network;
+package battleship.common.network;
 
 public class MessageConstant {
     public static final String RESPONSE = "RESPONSE:";

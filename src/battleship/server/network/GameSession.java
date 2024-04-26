@@ -1,9 +1,9 @@
 package battleship.server.network;
 
 import battleship.server.controller.TwoPlayerGameController;
-import battleship.model.network.MessageConstant;
+import battleship.common.network.MessageConstant;
 import battleship.server.model.TwoPlayerBoard;
-import battleship.model.ships.ShipType;
+import battleship.common.model.ships.ShipType;
 
 import java.util.*;
 
