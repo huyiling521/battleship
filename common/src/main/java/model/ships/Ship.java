@@ -49,6 +49,10 @@ public abstract class Ship implements IShip {
         this.hit = new HashSet<>();
     }
 
+    public Ship() {
+
+    }
+
     /**
      * Returns the type of ship
      * All subclass should implement this method by returning the corresponding ship type

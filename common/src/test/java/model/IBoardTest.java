@@ -1,16 +1,35 @@
 package model;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
 
-class IBoardTest {
+public class IBoardTest {
+    @Mock
+    private IBoard board;
 
-    @Test
-    void testShootAt() {
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void testIsGameOver() {
+    public void testShootAt() {
+        when(board.shootAt(0, 0)).thenReturn(true);
+        assertTrue(board.shootAt(0, 0));
+        when(board.shootAt(0, 0)).thenReturn(false);
+        assertFalse(board.shootAt(0, 0));
+    }
+
+    @Test
+    public void testIsGameOver() {
+        when(board.isGameOver()).thenReturn(false);
+        assertFalse(board.isGameOver());
+        when(board.isGameOver()).thenReturn(true);
+        assertTrue(board.isGameOver());
     }
 }

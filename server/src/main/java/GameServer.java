@@ -98,4 +98,8 @@ public class GameServer {
 
     public void startServerTestable() {
     }
+
+    public boolean isRunning() {
+        return this.isRunning;
+    }
 }
