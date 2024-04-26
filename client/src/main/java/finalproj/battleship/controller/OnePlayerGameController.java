@@ -1,8 +1,8 @@
 package finalproj.battleship.controller;
 
-import model.IGameController;
+import finalproj.battleship.model.IGameController;
 import finalproj.battleship.model.OnePlayerBoard;
-import model.ships.ShipType;
+import finalproj.battleship.model.ships.ShipType;
 
 public class OnePlayerGameController implements IGameController {
     private OnePlayerBoard onePlayerBoard;
