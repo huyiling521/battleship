@@ -1,4 +1,4 @@
-package battleship.server.socket;
+package battleship.model.network;
 
 public class MessageConstant {
     public static final String RESPONSE = "RESPONSE:";

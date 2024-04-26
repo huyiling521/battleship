@@ -1,7 +1,7 @@
 package battleship.client.network;
 
 import battleship.client.controller.GUIController;
-import common.model.network.MessageConstant;
+import battleship.model.network.MessageConstant;
 //import battleship.client.controller.MessageController;
 
 import java.io.BufferedReader;

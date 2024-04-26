@@ -1,4 +1,4 @@
-package battleship.server.model.ships;
+package battleship.model.ships;
 
 public class AircraftCarrier extends Ship {
 

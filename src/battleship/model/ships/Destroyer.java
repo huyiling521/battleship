@@ -1,4 +1,4 @@
-package battleship.server.model.ships;
+package battleship.model.ships;
 
 public class Destroyer extends Ship {
 
@@ -28,7 +28,6 @@ public class Destroyer extends Ship {
      */
     @Override
     public ShipType getShipType() {
-
         return SHIPTYPE;
     }
 

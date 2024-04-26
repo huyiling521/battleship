@@ -2,8 +2,8 @@ package battleship.client.controller;
 
 
 import battleship.client.model.OnePlayerBoard;
-import common.model.IGameController;
-import common.model.ships.ShipType;
+import battleship.model.IGameController;
+import battleship.model.ships.ShipType;
 
 public class OnePlayerGameController implements IGameController {
     private OnePlayerBoard onePlayerBoard;

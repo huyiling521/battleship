@@ -1,4 +1,4 @@
-package battleship.server.model.ships;
+package battleship.model.ships;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -117,19 +117,6 @@ public abstract class Ship implements IShip {
         //If exists a part not shot, the ship is not sunk
         return hit.size() == length;
     }
-
-    /**
-     * Returns a single-character String to use in the OnePlayerBoard’s print method.
-     * Return "s" if the ship has been sunk
-     * Return "x" if it has not been sunk
-     */
-    @Override
-    public String toString() {
-        //If the ship is sunk, mark it as "s", otherwise as "x"
-        if (this.isSunk()) return "s";
-        else return "x";
-    }
-
 
     //Getters and Setters
     /**

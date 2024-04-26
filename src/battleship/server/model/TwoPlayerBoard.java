@@ -1,7 +1,7 @@
 package battleship.server.model;
 
-import common.model.IBoard;
-import common.model.ships.*;
+import battleship.model.IBoard;
+import battleship.model.ships.*;
 
 import java.util.*;
 
