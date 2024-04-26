@@ -25,7 +25,6 @@ public class SettingPanel extends JPanel{
     private JLabel currPosition;
     private JLabel messageLabel;
     private JButton currShip;
-//    private final JScrollPane scrollPane;
     private boolean isHorizontal;
     private int row = -1;
     private int col = -1;

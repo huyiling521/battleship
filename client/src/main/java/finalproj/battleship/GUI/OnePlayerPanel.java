@@ -47,20 +47,19 @@ public class OnePlayerPanel extends JPanel {
         // Set up for helper information
         JTextArea textArea = new JTextArea(10, 25);
         textArea.setText("---------- WELCOME TO BATTLESHIP----------\n\n" +
-                "This is a Computer vs. Human version of game Battleship.\n" +
+                "This is a Computer vs. Human version of game Battleship.\n\n" +
                 "Here's basic rules for this game!\n\n" +
                 ">>The computer places the ten ships on the 10 x 10 board.\n" +
-                "     1 aircraft carrier(cover 5 units), \n" +
-                "     2 battleship(cover 4 units), \n" +
-                "     2 destroyer(cover 3 units), \n" +
-                "     2 submarine(cover 3 unit), \n" +
-                "     4 patrol boats(cover 2 unit)\n\n" +
-                ">>The human player tries to hit the ships, by indicating a specific row and column number (r,c). \n" +
-                ">>The computer responds with one bit of information saying, “hit” or “miss”.\n\n" +
-                ">>When a ship is hit and sinks, the program prints out a message “You just sank a ship - (type).\n" +
+                "       1 aircraft carrier(cover 5 units), \n" +
+                "       2 battleship(cover 4 units), \n" +
+                "       2 destroyer(cover 3 units), \n" +
+                "       2 submarine(cover 3 unit), \n" +
+                "       4 patrol boats(cover 2 unit)\n\n" +
+                ">>The computer responds with one bit of information saying, “hit” or “miss” \n" +
+                "the \"hit\" will be marked pink and \"miss\" will be marked gray.\n\n" +
+                ">>When a ship is hit and sinks, the program prints out a message \"You just sank a ship - (type)\".\n\n" +
                 ">>It takes four hits (in four different places) to sink a battleship, three to sink a cruiser, two for a destroyer, and one for a submarine.\n\n" +
-
-                ">>When all ship are sunk, the game is over.\n" +
+                ">>When all ship are sunk, the game is over.\n\n" +
                 ">>The score will be the number of shots the human player takes in total.");
         textArea.setEditable(false);
         textArea.setLineWrap(true);
