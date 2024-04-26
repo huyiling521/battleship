@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  * for setting up the game, including placing ships and starting the game.
  * It allows the user to select ships, set their orientation, and position them on the grid.
  */
-public class SettingPanel extends JPanel{
+public class SettingPanel extends JPanel {
     private final SettingGridBoard player1;
     private static final ComponentSize playAreaSize = ComponentSize.GAME_PANEL;
     private static final ComponentSize windowSize = ComponentSize.WINDOW;

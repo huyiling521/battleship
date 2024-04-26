@@ -10,6 +10,7 @@ public class PatrolBoatTest {
     @BeforeEach
     public void setUp() {
         patrolBoat = new PatrolBoat();
+        patrolBoat.placeAt(0, 0, true);
     }
 
     @Test

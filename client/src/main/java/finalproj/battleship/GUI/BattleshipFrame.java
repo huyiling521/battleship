@@ -2,7 +2,6 @@ package finalproj.battleship.GUI;
 
 import finalproj.battleship.GUI.style.ComponentSize;
 import finalproj.battleship.controller.GUIController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +13,7 @@ import java.awt.*;
  * This frame is designed to display the various game panels managed by the GUIController,
  * providing a user interface for the Battleship game.
  */
+
 public class BattleshipFrame extends JFrame {
     private static final ComponentSize frameSize = ComponentSize.WINDOW;
 

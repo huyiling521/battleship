@@ -3,35 +3,72 @@ package finalproj.battleship.GUI;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Mockito;
-import finalproj.battleship.controller.GUIController;
+import static org.mockito.Mockito.verify;
 
-public class PlayingPanelTest {
+import finalproj.battleship.controller.GUIController;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import javax.swing.*;
+
+@ExtendWith(MockitoExtension.class)
+class PlayingPanelTest {
+
     @Mock
     private GUIController guiController;
 
     private PlayingPanel playingPanel;
+    private JButton backButton;
+    private JButton sendButton;
+    private JTextField textField;
+    private JTextPane messageArea;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        playingPanel = new PlayingPanel(guiController, "Player1", "Opponent");
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.initMocks(this);
+//        playingPanel = new PlayingPanel(guiController, "Player1", "Opponent");
+//
+//        backButton = (JButton) TestUtils.getChildNamed(playingPanel, "quitButton");
+//        sendButton = (JButton) TestUtils.getChildNamed(playingPanel, "sendButton");
+//        textField = (JTextField) TestUtils.getChildNamed(playingPanel, "textField");
+//        messageArea = (JTextPane) TestUtils.getChildNamed(playingPanel, "messageArea");
+//    }
+
+    @Test
+    void testQuitButtonAction() {
+        assertNotNull(backButton, "Back button should not be null");
+        backButton.doClick();
+        verify(guiController).endGame();
+        verify(guiController).toWelcomePanel();
     }
 
     @Test
-    public void testGameInteraction() {
-        // Since the PlayingPanel class does not have a public method to access the game grid cells,
-        // we cannot directly simulate clicking on a cell. We need to refactor the code to allow access
-        // to the game grid cells for testing purposes.
+    void testSendMessage() throws Exception {
+        assertNotNull(sendButton, "Send button should not be null");
+        assertNotNull(textField, "Text field should not be null");
+
+        String testMessage = "Hello, Battleship!";
+        textField.setText(testMessage);
+        sendButton.doClick();
+
+        try {
+            verify(guiController).sendOpponentMessage(testMessage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals("", textField.getText(), "Text field should be cleared after sending a message");
     }
 
     @Test
-    public void testDisplayUpdates() {
-        // Since the PlayingPanel class does not provide a direct way to access the game controller's
-        // isHit method, we need to refactor the code to allow for better testing.
-        // In a real-world scenario, this method might be tested indirectly by observing changes in the
-        // GUI components or by integrating tests with the game logic.
+    void testMessageDisplay() {
+        // Assuming `addSystemMessage` and other methods update `messageArea`
+        String systemMessage = "System message test";
+        playingPanel.addSystemMessage(systemMessage);
+
+        String text = messageArea.getText();
+        assertTrue(text.contains(systemMessage), "Message area should contain the system message");
     }
 }
+

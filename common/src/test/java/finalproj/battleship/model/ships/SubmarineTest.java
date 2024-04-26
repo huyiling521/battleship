@@ -10,11 +10,12 @@ public class SubmarineTest {
     @BeforeEach
     public void setUp() {
         submarine = new Submarine();
+        submarine.placeAt(0, 0, true);
     }
 
     @Test
     public void testLength() {
-        assertEquals(1, submarine.getLength()); // Verify that the submarine's length is 1
+        assertEquals(3, submarine.getLength()); // Verify that the submarine's length is 1
     }
 
     @Test
@@ -25,6 +26,8 @@ public class SubmarineTest {
     @Test
     public void testIsSunk() {
         submarine.getShotAt(0, 0);
+        submarine.getShotAt(0, 1);
+        submarine.getShotAt(0, 2);
         assertTrue(submarine.isSunk()); // Check if the ship is sunk after it is hit
     }
 }
