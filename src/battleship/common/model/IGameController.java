@@ -1,6 +1,6 @@
-package battleship.model;
+package battleship.common.model;
 
-import battleship.model.ships.ShipType;
+import battleship.common.model.ships.ShipType;
 
 public interface IGameController {
 

@@ -1,4 +1,4 @@
-package battleship.model.ships;
+package battleship.common.model.ships;
 
 import java.util.HashSet;
 import java.util.Set;

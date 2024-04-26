@@ -6,10 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Battleship" />
+        <module name="battlehip-common" />
+        <module name="battlehip-client" />
+        <module name="battlehip-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="battlehip-commom" target="1.8" />
       <module name="battleship" target="1.5" />
     </bytecodeTargetLevel>
   </component>

@@ -1,4 +1,4 @@
-package battleship.model.ships;
+package battleship.common.model.ships;
 
 public class PatrolBoat extends Ship {
 

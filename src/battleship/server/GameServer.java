@@ -1,7 +1,7 @@
 package battleship.server;
 
 import battleship.server.network.GameSession;
-import battleship.model.network.MessageConstant;
+import battleship.common.network.MessageConstant;
 import battleship.server.network.PlayerHandler;
 
 import java.io.IOException;
