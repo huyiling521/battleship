@@ -46,8 +46,24 @@ public class GuidePanel extends JPanel {
         // Text area for displaying game rules
         gbc.gridy++;
         JTextArea rulesText = new JTextArea();
-        rulesText.setText("Detailed rules for playing Battleship, including single and multiplayer versions, " +
-                "ship placement rules, and gameplay mechanics.");
+        rulesText.setText("- There are 2 versions of Battleship game:\n" +
+                        "   >> Single Player Version allows you to play with a computer\n" +
+                        "   >> Two Player Version allows you to play with another player online\n\n" +
+                        "- Their rules are slightly different, please refer to their pages for detail.\n" +
+                        "- Here are some common rules:\n" +
+                        "   >> 11 ships in total, including:  \n" +
+                        "           1 aircraft of size 5,\n" +
+                        "           2 battleship of size 4,\n" +
+                        "           2 submarines of size 3,\n" +
+                        "           2 destroyers of size 3,\n" +
+                        "           4 patrol boats of size 2.\n" +
+                        "   >> A hit is marked, and a miss is also marked.\n" +
+                        "   >> The game continues until one player sinks all ships.\n" +
+                        "   >> Each ship must occupy the specified number of squares\n" +
+                        "         and must be placed on consecutive squares on the grid,\n" +
+                        "         arranged either horizontally or vertically.\n" +
+                        "   >> The ships cannot overlap.\n" +
+                        "          (i.e., only one ship can occupy any given square in the grid). \n");
         rulesText.setFont(new Font("Arial", Font.PLAIN, 14));
         rulesText.setEditable(false);
         rulesText.setLineWrap(true);

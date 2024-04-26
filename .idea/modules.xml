@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Battleship.iml" filepath="$PROJECT_DIR$/Battleship.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/battleship/common/battlehip-common.iml" filepath="$PROJECT_DIR$/src/battleship/common/battlehip-common.iml" />
     </modules>
   </component>
 </project>

@@ -9,8 +9,8 @@ import java.awt.Color;
  * different parts of the game.
  */
 public enum ButtonStyle {
-    PLAYER_SETTING(new Color(240, 240, 240), new Color(220, 160, 160), Color.PINK, Color.lightGray),
-    PLAYER_PLAYING1(new Color(240, 240, 240), new Color(220, 160, 160), Color.PINK, Color.lightGray),
+    PLAYER_SETTING(new Color(240, 240, 240), new Color(220, 160, 160), new Color(255,184,179), Color.lightGray),
+    PLAYER_PLAYING1(new Color(240, 240, 240), new Color(220, 160, 160), new Color(255,184,179), Color.lightGray),
     PLAYER_PLAYING2(new Color(240, 240, 240), new Color(130, 176, 200), new Color(173, 216, 230), Color.lightGray);
 
     private final Color originalColor; // Default color of the button
