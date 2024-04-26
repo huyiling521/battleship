@@ -1,7 +1,6 @@
 package finalproj.battleship.network;
 
 import finalproj.battleship.controller.GUIController;
-import network.MessageConstant;
 
 import java.io.BufferedReader;
 import java.io.IOException;

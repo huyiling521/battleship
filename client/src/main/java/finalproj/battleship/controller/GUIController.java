@@ -3,7 +3,7 @@ package finalproj.battleship.controller;
 import finalproj.battleship.GUI.*;
 import finalproj.battleship.GUI.components.*;
 import finalproj.battleship.network.*;
-import network.MessageConstant;
+import finalproj.battleship.network.MessageConstant;
 
 import javax.swing.*;
 import java.awt.*;
