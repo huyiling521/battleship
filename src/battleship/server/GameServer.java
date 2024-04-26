@@ -1,8 +1,8 @@
 package battleship.server;
 
-import battleship.server.socket.GameSession;
-import battleship.server.socket.MessageConstant;
-import battleship.server.socket.PlayerHandler;
+import battleship.server.network.GameSession;
+import common.model.network.MessageConstant;
+import battleship.server.network.PlayerHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -4,10 +4,7 @@ import battleship.client.GUI.*;
 import battleship.client.GUI.components.OnePlayerButton;
 import battleship.client.GUI.components.PlayingButton;
 import battleship.client.GUI.components.SettingButton;
-import battleship.client.socket.GameClient;
-import battleship.client.socket.MessageConstant;
-import battleship.server.controller.GameController;
-import battleship.server.model.TwoPlayerBoard;
+import battleship.client.network.GameClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -190,7 +187,7 @@ public class GUIController implements IGUIController {
         int row = Integer.parseInt(pos[0]);
         int col = Integer.parseInt(pos[1]);
         String systemMessage = "You" + " attacked (" + (char)(row - 1 + 'A') + ", " + col + "): ";
-        boolean isHit = onePlayerGameController.attack(row - 1,col - 1);
+        boolean isHit = onePlayerGameController.shootAt(row - 1,col - 1);
         if (isHit) {
             onePlayerPanel.addSystemMessage(systemMessage + "HIT");
             if (onePlayerGameController.isSunk(row - 1, col - 1)) onePlayerPanel.addSystemMessage("You sunk a " + onePlayerGameController.getShipType(row - 1, col - 1));

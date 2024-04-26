@@ -1,12 +1,12 @@
 package battleship.server.controller;
 
-import battleship.server.model.ships.ShipType;
+import common.model.ships.ShipType;
 import battleship.server.model.TwoPlayerBoard;
 
-public class GameController implements IGameController{
+public class TwoPlayerGameController implements IGameController{
     private TwoPlayerBoard twoPlayerBoard;
 
-    public GameController(TwoPlayerBoard twoPlayerBoard) {
+    public TwoPlayerGameController(TwoPlayerBoard twoPlayerBoard) {
         this.twoPlayerBoard = twoPlayerBoard;
     }
 
@@ -14,7 +14,7 @@ public class GameController implements IGameController{
         return twoPlayerBoard.placeOneShip(row, col, isHorizontal, shipType);
     }
 
-    public boolean attack(int row, int col) {
+    public boolean shootAt(int row, int col) {
         return twoPlayerBoard.shootAt(row, col);
     }
     public boolean isSunk(int row, int col) {

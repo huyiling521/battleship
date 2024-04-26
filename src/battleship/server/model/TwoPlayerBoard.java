@@ -1,12 +1,12 @@
 package battleship.server.model;
 
-import battleship.server.controller.GameController;
-import battleship.server.model.ships.*;
+import common.model.IBoard;
+import common.model.ships.*;
 
 import java.util.*;
 
 
-public class TwoPlayerBoard implements IBoard{
+public class TwoPlayerBoard implements IBoard {
 
 	//Instance variables
 
@@ -201,35 +201,6 @@ public class TwoPlayerBoard implements IBoard{
 	public boolean isGameOver() {
 		//Determine if the number of shipsSunk has been 10
 		return shipList.isEmpty();
-	}
-
-	/**
-	 * Print the OnePlayerBoard with row and column numbers(0-9) displayed
-	 * "x" indicates a location that you have fired upon and hit a (real) ship.
-	 * "-" indicates a location that you have fired upon and found nothing there.
-	 * "s" indicates a location containing a sunken ship.
-	 * "." indicates a location that has never been fired upon
-	 */
-	public void print() {
-		//First print a column for view
-		System.out.print("  0 1 2 3 4 5 6 7 8 9");
-		//Then print a row for view
-		for (int i = 0; i < 10; i++) {
-			System.out.print("\n"+ i +" ");
-			//Print each point on ocean
-			for(int j = 0; j < 10; j++) {
-				//If the point has been shoot
-//				if (this.shootPoint[i][j]){
-					//Determine if there is a real ship, a empty sea or sunk ship
-					System.out.print(this.ships[i][j].toString() + " ");
-//				}
-				//If the point has never been shot
-//				else {
-//					//Just print a "."
-//					System.out.print("."+" ");
-//				}
-			}
-		}
 	}
 	
 	//Getters and Setters

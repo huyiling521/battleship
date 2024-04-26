@@ -1,10 +1,10 @@
 package battleship.server.controller;
 
-import battleship.server.model.ships.ShipType;
+import common.model.ships.ShipType;
 
 public interface IGameController {
 
-    boolean attack(int row, int col);
+    boolean shootAt(int row, int col);
 
     boolean isSunk(int row, int col);
 
