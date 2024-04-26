@@ -1,6 +1,8 @@
 package battleship.client.model;
 
-import battleship.client.model.ships.*;
+import battleship.model.IBoard;
+import battleship.model.model.IBoard;
+import battleship.model.ships.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

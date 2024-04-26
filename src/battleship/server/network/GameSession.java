@@ -1,10 +1,9 @@
-package battleship.server.socket;
+package battleship.server.network;
 
-import battleship.server.controller.GameController;
+import battleship.server.controller.TwoPlayerGameController;
+import battleship.model.network.MessageConstant;
 import battleship.server.model.TwoPlayerBoard;
-import battleship.server.model.ships.ShipType;
-import battleship.server.socket.MessageConstant;
-import battleship.server.socket.PlayerHandler;
+import battleship.model.ships.ShipType;
 
 import java.util.*;
 
@@ -14,7 +13,7 @@ import java.util.*;
 // 在玩家断开连接时，清理资源。
 public class GameSession {
     private List<PlayerHandler> players;
-    private List<GameController> controllers;
+    private List<TwoPlayerGameController> controllers;
 
     private Set<PlayerHandler> connected;
     private int round = 1;
@@ -24,7 +23,7 @@ public class GameSession {
         this.players = players;
         this.gameEnd = false;
         for (PlayerHandler player : players) player.setSession(this);
-        controllers = new ArrayList<>(Arrays.asList(new GameController(new TwoPlayerBoard()), new GameController(new TwoPlayerBoard())));
+        controllers = new ArrayList<>(Arrays.asList(new TwoPlayerGameController(new TwoPlayerBoard()), new TwoPlayerGameController(new TwoPlayerBoard())));
         this.connected = new HashSet<>();
     }
 
@@ -96,7 +95,7 @@ public class GameSession {
     }
 
     public boolean shootAt(int row, int col, int index) {
-        return controllers.get(1 - index).attack(row, col);
+        return controllers.get(1 - index).shootAt(row, col);
     }
 
     public void connected(PlayerHandler playerHandler) {

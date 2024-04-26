@@ -2,7 +2,6 @@ package battleship.client;
 
 import battleship.client.GUI.BattleshipFrame;
 import battleship.client.controller.GUIController;
-import battleship.client.socket.GameClient;
 
 // import java.lang.reflect.InvocationTargetException;
 

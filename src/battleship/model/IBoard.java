@@ -1,4 +1,4 @@
-package battleship.server.model;
+package battleship.model;
 
 public interface IBoard {
 

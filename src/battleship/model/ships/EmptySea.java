@@ -1,4 +1,4 @@
-package battleship.client.model.ships;
+package battleship.model.ships;
 
 public class EmptySea extends Ship {
 
@@ -36,19 +36,8 @@ public class EmptySea extends Ship {
         return false;
     }
 
-    /**
-     * Return the single-character "-" to use in the OnePlayerBoard's print method
-     */
-    @Override
-    public String toString() {
-        return "-";
-    }
-    /**
-     * Return "empty" as the type of the ship
-     */
     @Override
     public ShipType getShipType() {
-
         return SHIPTYPE;
     }
 }

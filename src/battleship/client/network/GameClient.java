@@ -1,6 +1,7 @@
-package battleship.client.socket;
+package battleship.client.network;
 
 import battleship.client.controller.GUIController;
+import battleship.model.network.MessageConstant;
 //import battleship.client.controller.MessageController;
 
 import java.io.BufferedReader;

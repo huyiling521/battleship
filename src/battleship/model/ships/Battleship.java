@@ -1,4 +1,4 @@
-package battleship.client.model.ships;
+package battleship.model.ships;
 
 public class Battleship extends Ship {
 

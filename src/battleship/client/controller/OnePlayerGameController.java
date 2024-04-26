@@ -2,15 +2,16 @@ package battleship.client.controller;
 
 
 import battleship.client.model.OnePlayerBoard;
-import battleship.client.model.ships.ShipType;
+import battleship.model.IGameController;
+import battleship.model.ships.ShipType;
 
-public class OnePlayerGameController implements IGameController{
+public class OnePlayerGameController implements IGameController {
     private OnePlayerBoard onePlayerBoard;
 
     public OnePlayerGameController() {
         this.onePlayerBoard = new OnePlayerBoard();
     }
-    public boolean attack(int row, int col) {
+    public boolean shootAt(int row, int col) {
         return onePlayerBoard.shootAt(row, col);
     }
 

@@ -1,4 +1,4 @@
-package battleship.client.model.ships;
+package battleship.model.ships;
 
 public enum ShipType {
     AIRCRAFT_CARRIER,
