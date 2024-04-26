@@ -15,12 +15,12 @@ public class GameSessionTest {
 
     @BeforeEach
     public void setUp() {
+        session = new GameSession();
         player1 = mock(PlayerHandler.class);
         player2 = mock(PlayerHandler.class);
-        List<PlayerHandler> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-        session = new GameSession();
+        session.add(player1);
+        session.add(player2);
+
     }
 
     @Test

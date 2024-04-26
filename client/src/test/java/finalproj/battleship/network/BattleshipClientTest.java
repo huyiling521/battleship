@@ -1,13 +1,14 @@
 package finalproj.battleship.network;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import finalproj.battleship.BattleshipClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class BattleshipClientTest {
     @Mock
     private BattleshipClient client;

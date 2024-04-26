@@ -10,6 +10,7 @@ public class BattleshipTest {
     @BeforeEach
     public void setUp() {
         battleship = new Battleship();
+        battleship.placeAt(0, 0, true);
     }
 
     @Test

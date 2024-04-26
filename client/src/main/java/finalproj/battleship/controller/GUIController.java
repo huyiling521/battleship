@@ -1,5 +1,6 @@
 package finalproj.battleship.controller;
 
+import finalproj.battleship.BattleshipClient;
 import finalproj.battleship.GUI.*;
 import finalproj.battleship.GUI.components.*;
 import finalproj.battleship.network.*;
@@ -20,6 +21,7 @@ public class GUIController implements IGUIController {
     private GameClient gameClient;
     private String name;
     private String opponentName;
+
     public GUIController() {
         WelcomePanel welcomePanel = new WelcomePanel(this);
         settingPanel = null;

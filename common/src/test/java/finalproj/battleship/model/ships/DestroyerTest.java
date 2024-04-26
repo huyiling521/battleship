@@ -9,6 +9,7 @@ public class DestroyerTest {
     @BeforeEach
     public void setUp() {
         destroyer = new Destroyer();
+        destroyer.placeAt(0, 0, true);
     }
 
     @Test
