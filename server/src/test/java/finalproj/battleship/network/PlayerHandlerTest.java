@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 import java.io.*;
 import java.net.Socket;
 
-@ExtendWith(MockitoExtension.class)
 public class PlayerHandlerTest {
 
     private PlayerHandler handler;

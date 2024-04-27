@@ -50,9 +50,9 @@ public class GameClient {
                 while (running && (message = in.readLine()) != null) {
                     System.out.println(message);
                     if (isResponse(message)) {
-                        responseQueue.offer(message.substring(message.indexOf(":") + 1));  // 处理响应
+                        responseQueue.offer(message.substring(message.indexOf(":") + 1));
                     } else {
-                        processServerMessage(message.substring(message.indexOf(":") + 1));  // 处理通知
+                        processServerMessage(message.substring(message.indexOf(":") + 1));
                     }
                 }
             } catch (IOException e) {

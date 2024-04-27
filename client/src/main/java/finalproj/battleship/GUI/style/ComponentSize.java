@@ -6,7 +6,7 @@ package finalproj.battleship.GUI.style;
  * ensures a consistent layout and appearance across the game interface.
  */
 public enum ComponentSize {
-    WINDOW(1200, 700),
+    WINDOW(1200, 800),
     WELCOME_PANEL(400, 400),
     GAME_PANEL(800, 800),
     CHAT_PANEL(770, 180),
