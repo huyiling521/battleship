@@ -16,6 +16,7 @@ import java.awt.*;
 
 public class BattleshipFrame extends JFrame {
     private static final ComponentSize frameSize = ComponentSize.WINDOW;
+    private GUIController guiController;
 
     /**
      * Constructs a new BattleshipFrame} that sets up the main window of the Battleship game.
@@ -27,6 +28,8 @@ public class BattleshipFrame extends JFrame {
      */
     public BattleshipFrame(GUIController guiController) {
         super();
+
+        this.guiController = guiController;
 
         setPreferredSize(new Dimension(frameSize.getWidth(), frameSize.getHeight()));
         setResizable(false);

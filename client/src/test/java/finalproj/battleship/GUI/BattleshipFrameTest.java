@@ -16,7 +16,6 @@ import java.util.Arrays;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class BattleshipFrameTest {
     @Mock
     private GUIController guiController;
@@ -27,8 +26,6 @@ class BattleshipFrameTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        when(guiController.getCardPanel()).thenReturn(cardPanel);
         frame = new BattleshipFrame(guiController);
     }
 
