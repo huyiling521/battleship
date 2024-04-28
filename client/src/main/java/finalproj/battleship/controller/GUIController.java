@@ -182,6 +182,10 @@ public class GUIController implements IGUIController {
         this.battleshipFrame = battleshipFrame;
     }
 
+    public void setGameClient(GameClient gameClient) {
+        this.gameClient = gameClient;
+    }
+
     //the following is for single player
 
     public boolean attackComputer(OnePlayerButton onePlayerButton) {

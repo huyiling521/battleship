@@ -1,24 +1,37 @@
 package finalproj.battleship.GUI;
 
+import finalproj.battleship.testutils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GuidePanelTest {
+import finalproj.battleship.controller.GUIController;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import javax.swing.*;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
+class GuidePanelTest {
+
+    @Mock
+    private GUIController guiController;
+    private GuidePanel guidePanel;
 
     @BeforeEach
-    public void setUp() {
-        // Initialize your GuidePanel before each test.
+    void setUp() {
+        guidePanel = new GuidePanel(guiController);
     }
 
     @Test
-    public void testComponentInitialization() {
-        // Test if all text labels and instructional components are initialized.
-        // Assert that each component is not null.
-    }
+    void testbackButton(){
+        JButton back = TestUtils.findButtonByText(guidePanel, "Back");
+        assertNotNull(back, "Aircraft Carrier button should not be null");
 
-    @Test
-    public void testVisibility() {
-        // Test if the panel is visible upon initialization.
-        // Assert that the visibility is true.
+        back.doClick();
+        verify(guiController).toWelcomePanel();
     }
 }
