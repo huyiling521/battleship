@@ -3,20 +3,19 @@ package finalproj.battleship.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class OnePlayerBoardTest {
+    private OnePlayerBoard onePlayerBoard;
 
     @BeforeEach
     public void setUp() {
-        // Initialize your OnePlayerBoard before each test.
-        // This method is called before each test. It's used to set up the test environment,
-        // typically creating instances of the class being tested and configuring them as necessary.
+       onePlayerBoard = new OnePlayerBoard();
     }
 
     @Test
     public void testBoardInitialization() {
-        // Test if the board is initialized correctly with all positions set to water or appropriate ship segments.
-        // Assert that the initial configuration of the board matches expected setup,
-        // such as all ships placed correctly and the rest of the space filled with water.
+        assertTrue(onePlayerBoard.getShipList().size() == 11);
     }
 
     @Test
@@ -28,32 +27,39 @@ public class OnePlayerBoardTest {
 
     @Test
     public void testShootAt() {
-        // Test the shootAt method by simulating shots to various coordinates on the board.
-        // This method should test both hitting a ship and missing.
-        // Assert the correct response from shootAt method (hit results in true, miss results in false).
-        // Check state changes on the board, such as marking hit or miss spots.
+        boolean shot = onePlayerBoard.shootAt(0,0);
+        if (shot == true) {
+            Exception e = assertThrows(IllegalArgumentException.class, () -> {
+                onePlayerBoard.shootAt(0, 0);
+            });
+            assertEquals("The position has been shot. Please choose another one.", e.getMessage());
+        }
     }
 
     @Test
     public void testIsGameOver() {
-        // Test the isGameOver method to determine if all ships have been sunk.
-        // This method should simulate various scenarios where some or all ships are sunk.
-        // Assert true if all ships are sunk, false otherwise.
-    }
+        assertFalse(onePlayerBoard.isGameOver());
 
-    @Test
-    public void testGetShip() {
-        // Test getting a ship from a specific coordinate.
-        // This test should check if the correct ship or part of a ship is returned for given coordinates.
-        // Assert that the correct ship or part is returned from getShip.
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                onePlayerBoard.shootAt(i, j);
+            }
+        }
+        assertTrue(onePlayerBoard.isGameOver());
     }
 
     @Test
     public void testGetShotsFired() {
-        // Test the getShotsFired method to count the number of shots fired during the game.
-        // Simulate firing shots at the board and verify if the count increases correctly.
-        // Assert that the returned count matches the number of shots actually fired.
+        assertEquals(0, onePlayerBoard.getShotsFired());
+        assertEquals(0, onePlayerBoard.getHitCount());
+        int n = onePlayerBoard.getShotsFired();
+        int m = onePlayerBoard.getHitCount();
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                boolean shot = onePlayerBoard.shootAt(i, j);
+                assertEquals(++n, onePlayerBoard.getShotsFired());
+                if (shot) assertEquals(++m, onePlayerBoard.getHitCount());
+            }
+        }
     }
-
-    // Additional tests can be added here to cover more methods or scenarios specific to OnePlayerBoard.
 }

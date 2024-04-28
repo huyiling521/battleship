@@ -212,4 +212,8 @@ public class GameClient {
         String res = sendGameMessage(MessageConstant.ATTACK + req);
         return res.substring(res.indexOf(":") + 1).equals("true");
     }
+
+    public BlockingQueue<String> getResponseQueue() {
+        return responseQueue;
+    }
 }

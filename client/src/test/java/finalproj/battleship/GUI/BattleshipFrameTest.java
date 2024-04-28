@@ -1,36 +1,43 @@
 package finalproj.battleship.GUI;
 
-import static org.junit.jupiter.api.Assertions.*;
+import finalproj.battleship.GUI.style.ComponentSize;
+import finalproj.battleship.controller.GUIController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-public class BattleshipFrameTest {
+import javax.swing.*;
 
-    private BattleshipFrame frame;
+import java.awt.*;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+@ExtendWith(MockitoExtension.class)
+class BattleshipFrameTest {
+
+    @Mock
+    private GUIController guiController;
+
+    private BattleshipFrame battleshipFrame;
 
     @BeforeEach
-    public void setUp() {
-        // Initialize your BattleshipFrame here
-//        frame = new BattleshipFrame();
+    void setUp() {
+        when(guiController.getCardPanel()).thenReturn(new JPanel());
+        battleshipFrame = new BattleshipFrame(guiController);
     }
 
     @Test
-    public void testFrameVisibility() {
-        // Test if the frame is visible after initialization
-//        assertTrue(frame.isVisible(), "Frame should be visible after being initialized");
-    }
+    void framePropertiesTest() {
+        assertEquals(ComponentSize.WINDOW.getWidth(), battleshipFrame.getWidth());
+        assertEquals(ComponentSize.WINDOW.getHeight(), battleshipFrame.getHeight());
+        assertFalse(battleshipFrame.isResizable());
+        assertEquals("Battleship", battleshipFrame.getTitle());
+        assertEquals(JFrame.EXIT_ON_CLOSE, battleshipFrame.getDefaultCloseOperation());
 
-    @Test
-    public void testComponentSetup() {
-        // Test if all necessary components are added to the frame
-//        assertNotNull(frame.getContentPane(), "Content pane should not be null");
+        verify(guiController, times(1)).getCardPanel();
+        verify(guiController, times(1)).setBattleshipFrame(battleshipFrame);
     }
-
-    @Test
-    public void testInitialConditions() {
-        // Test if the frame is set up with the correct conditions (size, layout, etc.)
-//        assertEquals(expectedSize, frame.getSize(), "Frame should be initialized with the correct size");
-    }
-
-    // Additional tests for functionality related to the BattleshipFrame
 }

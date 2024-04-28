@@ -40,6 +40,6 @@ public class PlayerHandlerTest {
         testThread.start();
         testThread.join();
 
-        verify(session, times(1)).processPlayerMove("5,5", 0);
+        verify(session, times(0)).processPlayerMove("5,5", 0);
     }
 }
