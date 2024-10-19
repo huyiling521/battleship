@@ -13,7 +13,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="battlehip-commom" target="1.8" />
-      <module name="battleship" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
